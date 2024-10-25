@@ -4,14 +4,12 @@
 namespace term_manip {
     void clear_screen();
 
-    // https://stackoverflow.com/questions/17335816/clear-screen-using-c
-    // https://stackoverflow.com/questions/2649733/hide-cursor-on-remote-terminal
+    // https://en.wikipedia.org/wiki/ANSI_escape_code#Description
     const char CLEAR_SCREEN[] = "\e[2J";
     const char CURSOR_RESET[] = "\e[1;1H";
-    const char CURSOR_HIDE[] = "\e[?25h";
-    const char CURSOR_SHOW[] = "\e[?25l";
+    const char CURSOR_HIDE[] = "\e[?25l";
+    const char CURSOR_SHOW[] = "\e[?25h";
 
-    // https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
     const char RESET[] = "\e[0m";
     const char BOLD[] = "\e[1m";
     const char FAINT[] = "\e[2m";
