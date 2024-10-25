@@ -2,5 +2,5 @@
 #include <iostream>
 
 void term_manip::clear_screen() {
-    std::cout << CH_CLEAR << CH_CURSOR_RESET;
+    std::cout << CLEAR_SCREEN << CURSOR_RESET;
 }

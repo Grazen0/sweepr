@@ -4,9 +4,9 @@
 int main() {
     term_manip::clear_screen();
 
-    std::cout << term_manip::color::BLUE << term_manip::color::BOLD;
+    std::cout << term_manip::BLUE << term_manip::BOLD;
     std::cout << "Hello, world!" << std::endl;
-    std::cout << term_manip::color::RESET;
+    std::cout << term_manip::RESET;
 
     return 0;
 }
