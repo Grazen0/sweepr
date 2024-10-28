@@ -1,12 +1,8 @@
 #include <iostream>
-#include "lib/term_manip.h"
+#include "lib/util.h"
 
 int main() {
-    term_manip::clear_screen();
-
-    std::cout << term_manip::BLUE << term_manip::BOLD;
+    sweepr::util::clear_screen();
     std::cout << "Hello, world!" << std::endl;
-    std::cout << term_manip::RESET;
-
     return 0;
 }
