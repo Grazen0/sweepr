@@ -1,7 +1,0 @@
-#!/bin/sh
-
-BUILD_DIR="cmake-build-debug"
-
-mkdir -p "$BUILD_DIR"
-cmake -B "$BUILD_DIR"
-cmake --build "$BUILD_DIR"
