@@ -1,4 +1,7 @@
 cmake-build-debug/
 build/
 
+.direnv/
+.envrc
+
 scores.txt
