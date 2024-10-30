@@ -69,20 +69,19 @@ void sweepr::GameState::discover_cell(const int root_i, const int root_j) {
             continue;
         }
 
-        for (int k = -1; k <= 1; k++) {
-            if ((k == -1 && i == 0) || (k == 1 && i >= this->board_size - 1))
+        for (int k = i - 1; k <= i + 1; k++) {
+            if (k < 0 || k >= this->board_size - 1)
                 continue;
 
-            for (int l = -1; l <= 1; l++) {
-                if ((l == -1 && j == 0) ||
-                    (l == 1 && j >= this->board_size - 1))
+            for (int l = -1; l <= j + 1; l++) {
+                if (l < 0 || l >= this->board_size - 1)
                     continue;
 
-                auto& cell = grid[i + k][j + l];
+                auto& cell = grid[k][l];
 
                 if (!cell.is_discovered() && !cell.is_mine()) {
                     cell.set_discovered(true);
-                    stack.push_back({i + k, j + l});
+                    stack.push_back({k, l});
                 }
             }
         }
@@ -91,13 +90,14 @@ void sweepr::GameState::discover_cell(const int root_i, const int root_j) {
 
 void sweepr::GameState::initialize() {
     // Dato curioso: "ISO C++ forbids variable length array"
-    std::vector<int> mine_candidates(this->total_cells());
+    int* mine_candidates = new int[this->total_cells()];
 
-    for (int i = 0; i < mine_candidates.size(); i++) {
+    for (int i = 0; i < this->total_cells(); i++) {
         mine_candidates[i] = i;
     }
 
-    util::shuffle_first_n(mine_candidates, this->mine_count);
+    util::shuffle_first_n(mine_candidates, this->total_cells(),
+                          this->mine_count);
 
     for (int m = 0; m < this->mine_count; m++) {
         const int mine_position = mine_candidates[m];
@@ -110,10 +110,12 @@ void sweepr::GameState::initialize() {
         // Viajar por las casillas vecinas para incrementar su cuenta de minas
         // vecinas
         for (int k = i - 1; k <= i + 1 && k < this->board_size; k++) {
-            if (k < 0) continue;
+            if (k < 0)
+                continue;
 
             for (int l = j - 1; l <= j + 1 && l < this->board_size; l++) {
-                if (l < 0) continue;
+                if (l < 0)
+                    continue;
                 this->grid[k][l].increment_adjacent_mines();
             }
         }
@@ -166,8 +168,8 @@ void sweepr::GameState::run() {
             << "Ingrese 'F' para marcar con bandera o 'D' para descubrir: ";
         std::cin >> action;
 
-        switch (action) {
-            case 'F': {
+        switch (util::to_lowercase(action)) {
+            case 'f': {
                 const bool is_now_flagged = cell.toggle_flagged();
 
                 if (is_now_flagged) {
@@ -177,7 +179,7 @@ void sweepr::GameState::run() {
                 }
                 break;
             }
-            case 'D': {
+            case 'd': {
                 if (cell.is_flagged()) {
                     error_message = "La casilla seleccionada tiene bandera.";
                     continue;
