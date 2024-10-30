@@ -90,14 +90,13 @@ void sweepr::GameState::discover_cell(const int root_i, const int root_j) {
 
 void sweepr::GameState::initialize() {
     // Dato curioso: "ISO C++ forbids variable length array"
-    int* mine_candidates = new int[this->total_cells()];
+    std::vector<int> mine_candidates(this->total_cells());
 
-    for (int i = 0; i < this->total_cells(); i++) {
+    for (unsigned int i = 0; i < mine_candidates.size(); i++) {
         mine_candidates[i] = i;
     }
 
-    util::shuffle_first_n(mine_candidates, this->total_cells(),
-                          this->mine_count);
+    util::shuffle_first_n(mine_candidates, this->mine_count);
 
     for (int m = 0; m < this->mine_count; m++) {
         const int mine_position = mine_candidates[m];
