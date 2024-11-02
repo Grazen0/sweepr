@@ -1,5 +1,4 @@
 #include "util.h"
-#include <cstdio>
 #include <iostream>
 #include <limits>
 #include <vector>
@@ -29,6 +28,7 @@ namespace sweepr::util {
 
     void wait_for_enter() {
         // Vaciar el buffer de cin
+        // https://stackoverflow.com/questions/257091/how-do-i-flush-the-cin-buffer
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         // Procesar hasta un '\n'
         std::cin.ignore();
