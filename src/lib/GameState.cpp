@@ -1,8 +1,6 @@
 #include "GameState.h"
 #include <iomanip>
 #include <iostream>
-#include <string>
-#include <utility>
 #include <vector>
 #include "Cell.h"
 #include "data/data.h"
@@ -107,21 +105,27 @@ namespace sweepr {
         }
     }
 
-    void GameState::initialize() {
+    void GameState::initialize_mines(const int start_i, const int start_j) {
         // Dato curioso: "ISO C++ forbids variable length array"
-        std::vector<int> mine_candidates(this->total_cells());
+        std::vector<std::pair<int, int>> mine_candidates;
+        mine_candidates.reserve(this->total_cells() - 1);
 
-        for (unsigned int i = 0; i < mine_candidates.size(); i++) {
-            mine_candidates[i] = i;
+        for (int i = 0; i < this->board_size; i++) {
+            for (int j = 0; j < this->board_size; j++) {
+                if (i < start_i - 1 || i > start_i + 1 || j < start_j - 1 ||
+                    j > start_j + 1) {
+                    mine_candidates.push_back({i, j});
+                }
+            }
         }
 
         util::shuffle_first_n(mine_candidates, this->mine_count);
 
         for (int m = 0; m < this->mine_count; m++) {
-            const int mine_position = mine_candidates[m];
+            const auto& mine_position = mine_candidates[m];
 
-            const int i = mine_position / this->board_size;
-            const int j = mine_position % this->board_size;
+            const int i = mine_position.first;
+            const int j = mine_position.second;
 
             this->grid[i][j].set_mine(true);
 
@@ -143,6 +147,7 @@ namespace sweepr {
 
     void GameState::run() {
         bool done = false;
+        bool initialized = false;
         int turns = 0;
 
         std::string error_message;
@@ -206,6 +211,11 @@ namespace sweepr {
                         error_message =
                             "La casilla seleccionada tiene bandera.";
                         break;
+                    }
+
+                    if (!initialized) {
+                        this->initialize_mines(i, j);
+                        initialized = true;
                     }
 
                     if (cell.is_mine()) {

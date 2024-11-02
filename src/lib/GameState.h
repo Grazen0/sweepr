@@ -25,7 +25,7 @@ namespace sweepr {
 
         ~GameState();
 
-        void initialize();
+        void initialize_mines(const int safe_i, const int safe_j);
 
         void run();
 

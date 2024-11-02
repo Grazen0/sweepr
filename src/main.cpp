@@ -63,7 +63,6 @@ int main() {
 
                 sweepr::GameState game(difficulty);
 
-                game.initialize();
                 game.run();
 
                 std::cout << std::endl;
