@@ -29,7 +29,7 @@ namespace sweepr::util {
 
     void wait_for_enter() {
         // Vaciar el buffer de cin
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max());
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         // Procesar hasta un '\n'
         std::cin.ignore();
     }

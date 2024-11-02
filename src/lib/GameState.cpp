@@ -42,7 +42,13 @@ namespace sweepr {
         }
 
         std::cout << std::endl;
-        std::cout << "     = = = = = =" << std::endl;
+        std::cout << "   + ";
+
+        for (int j = 0; j < this->board_size; j++) {
+            std::cout << "= ";
+        }
+
+        std::cout << std::endl;
 
         for (int i = 0; i < this->board_size; i++) {
             std::cout << std::setw(2) << (i + 1) << " | ";
@@ -205,8 +211,12 @@ namespace sweepr {
                     data::Leaderboard leaderboard = data::load_leaderboard();
 
                     std::string player_name;
-                    std::cout << "Ingresa tu nombre: ";
-                    std::cin >> player_name;
+
+                    do {
+                        std::cout << "Ingresa tu nombre: ";
+                        std::cin >> player_name;
+                    } while (player_name.find(data::ENTRY_SEPARATOR) !=
+                             std::string::npos);
 
                     leaderboard.add_entry(this->difficulty, player_name, turns);
 

@@ -1,30 +1,47 @@
 #include <ctime>
 #include <iostream>
 #include "lib/GameState.h"
+#include "lib/data/Leaderboard.h"
+#include "lib/data/data.h"
 #include "lib/specs.h"
 #include "lib/util.h"
 
-// `constexpr` es como `const`, pero garantiza que la variable se evalúe en el
-// tiempo de compilación.
-constexpr char GAME_BANNER[] =
-    "            Bienvenido a...         \n"
-    " ___ __      __ ___   ___  _ __   _ __ \n"
-    "/ __|\\ \\ /\\ / // _ \\ / _ \\| '_ \\ | '__|\n"
-    "\\__ \\ \\ V  V /|  __/|  __/| |_) || |   \n"
-    "|___/  \\_/\\_/  \\___| \\___|| .__/ |_|   \n"
-    "                          |_|          \n"
-    "\n";
+namespace util = sweepr::util;
+namespace specs = sweepr::specs;
+namespace data = sweepr::data;
+
+void print_leaderboard_section(data::Leaderboard& leaderboard,
+                               const int difficulty, const char label[]) {
+    const auto& entries = leaderboard.get_entries(difficulty);
+
+    std::cout << label << ':' << std::endl;
+
+    for (int i = 0; i < std::min(5, (int)entries.size()); i++) {
+        std::cout << (i + 1) << ". " << entries[i].get_name() << " - "
+                  << entries[i].get_turns_taken() << " turnos" << std::endl;
+    }
+
+    std::cout << std::endl;
+}
+
+// https://www.geeksforgeeks.org/raw-string-literal-c/
+constexpr char GAME_BANNER[] = R"(
+           Bienvenido a...
+ ___ __      __ ___   ___  _ __   _ __
+/ __|\ \ /\ / // _ \ / _ \| '_ \ | '__|
+\__ \ \ V  V /|  __/|  __/| |_) || |
+|___/  \_/\_/  \___| \___|| .__/ |_|
+                          |_|
+)";
 
 int main() {
     std::srand(std::time(nullptr));
-
-    std::cout << std::endl;
 
     bool exit = false;
     std::string error_message;
 
     while (!exit) {
-        sweepr::util::clear_screen();
+        util::clear_screen();
 
         std::cout << GAME_BANNER << std::endl;
 
@@ -55,10 +72,11 @@ int main() {
                 int difficulty;
                 std::cin >> difficulty;
 
-                if (difficulty < sweepr::specs::DIFFICULTY_EASY ||
-                    difficulty > sweepr::specs::DIFFICULTY_HARD) {
+                while (difficulty < specs::DIFFICULTY_EASY ||
+                       difficulty > specs::DIFFICULTY_HARD) {
                     std::cout << "Selección inválida." << std::endl;
-                    std::cout << std::endl;
+
+                    std::cin >> difficulty;
                 }
 
                 sweepr::GameState game(difficulty);
@@ -69,12 +87,27 @@ int main() {
                 break;
             }
             case 2: {
-                std::cerr << "SIN IMPLEMENTAR" << std::endl;
+                data::Leaderboard leaderboard = data::load_leaderboard();
+
+                util::clear_screen();
+
+                std::cout << "Mejores jugadores:" << std::endl;
                 std::cout << std::endl;
+
+                print_leaderboard_section(leaderboard, specs::DIFFICULTY_EASY,
+                                          "Fácil");
+                print_leaderboard_section(leaderboard, specs::DIFFICULTY_MEDIUM,
+                                          "Intermedio");
+                print_leaderboard_section(leaderboard, specs::DIFFICULTY_HARD,
+                                          "Difícil");
+
+                std::cout << std::endl;
+                std::cout << "Presiona enter para volver al menú principal...";
+                util::wait_for_enter();
                 break;
             }
             case 3: {
-                sweepr::util::clear_screen();
+                util::clear_screen();
                 std::cout << "¡Hasta luego!" << std::endl;
                 exit = true;
                 break;
