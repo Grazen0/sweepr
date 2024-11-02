@@ -13,7 +13,8 @@ namespace sweepr {
           mine_count(specs::generate_mine_count(difficulty)),
           board_size(specs::get_board_size(difficulty)),
           flag_count(0),
-          discovered_count(0) {
+          discovered_count(0),
+          state(STATE_PLAYING) {
         this->grid = new Cell*[this->board_size];
 
         for (int i = 0; i < this->board_size; i++) {
@@ -49,12 +50,35 @@ namespace sweepr {
             for (int j = 0; j < this->board_size; j++) {
                 const Cell& cell = this->grid[i][j];
 
-                if (cell.is_discovered()) {
-                    std::cout << std::to_string(cell.get_adjacent_mines());
-                } else if (cell.is_flagged()) {
-                    std::cout << 'F';
-                } else {
-                    std::cout << '-';
+                switch (this->state) {
+                    case STATE_PLAYING: {
+                        if (cell.is_discovered()) {
+                            std::cout << cell.get_adjacent_mines();
+                        } else if (cell.is_flagged()) {
+                            std::cout << 'F';
+                        } else {
+                            std::cout << '-';
+                        }
+                        break;
+                    }
+                    case STATE_VICTORY: {
+                        if (cell.is_mine()) {
+                            std::cout << 'F';
+                        } else {
+                            std::cout << cell.get_adjacent_mines();
+                        }
+                        break;
+                    }
+                    case STATE_LOSS: {
+                        if (cell.is_mine()) {
+                            std::cout << 'X';
+                        } else if (cell.is_discovered()) {
+                            std::cout << cell.get_adjacent_mines();
+                        } else {
+                            std::cout << '-';
+                        }
+                        break;
+                    }
                 }
 
                 std::cout << ' ';
@@ -170,6 +194,35 @@ namespace sweepr {
             this->print_grid();
             std::cout << std::endl;
 
+            if (this->state != STATE_PLAYING) {
+                if (this->state == STATE_LOSS) {
+                    std::cout << "¡Has descubierto una mina!" << std::endl;
+                } else if (this->state == STATE_VICTORY) {
+                    std::cout << "¡Felicidades! ¡Has descubierto todas las "
+                                 "celdas sin mina!"
+                              << std::endl;
+
+                    data::Leaderboard leaderboard = data::load_leaderboard();
+
+                    std::string player_name;
+                    std::cout << "Ingresa tu nombre: ";
+                    std::cin >> player_name;
+
+                    leaderboard.add_entry(this->difficulty, player_name, turns);
+
+                    data::save_leaderboard(leaderboard);
+
+                    std::cout << "Tu puntuación ha sido guardada en la tabla "
+                                 "de puntuaciones"
+                              << std::endl;
+                }
+
+                std::cout << "Presiona enter para volver al menú principal...";
+                util::wait_for_enter();
+                done = true;
+                continue;
+            }
+
             int i, j;
             std::cout << "Seleccione una celda (fila columna): ";
             std::cin >> i >> j;
@@ -219,16 +272,7 @@ namespace sweepr {
                     }
 
                     if (cell.is_mine()) {
-                        std::cout << "¡Has descubierto una mina!" << std::endl;
-                        std::cout << std::endl;
-
-                        // TODO: show end result and prompt for enter to
-                        // continue
-
-                        int n;
-                        std::cin >> n;
-
-                        done = true;
+                        this->state = STATE_LOSS;
                         break;
                     }
 
@@ -236,25 +280,7 @@ namespace sweepr {
 
                     if (this->discovered_count + this->mine_count ==
                         this->total_cells()) {
-                        std::cout << "¡Felicidades! ¡Has descubierto todas las "
-                                     "celdas sin mina!"
-                                  << std::endl;
-
-                        // TODO: flag remaining cells and show end result
-
-                        data::Leaderboard leaderboard =
-                            data::load_leaderboard();
-
-                        std::string player_name;
-                        std::cout << "Ingresa tu nombre: ";
-                        std::cin >> player_name;
-
-                        leaderboard.add_entry(this->difficulty, player_name,
-                                              turns);
-
-                        data::save_leaderboard(leaderboard);
-
-                        done = true;
+                        this->state = STATE_VICTORY;
                     }
                     break;
                 }

@@ -4,6 +4,10 @@
 #include "Cell.h"
 
 namespace sweepr {
+    constexpr int STATE_PLAYING = 0;
+    constexpr int STATE_VICTORY = 1;
+    constexpr int STATE_LOSS = 2;
+
     class GameState {
     private:
         const int difficulty;
@@ -13,6 +17,7 @@ namespace sweepr {
 
         int flag_count;
         int discovered_count;
+        int state;
 
         int total_cells() const;
 
