@@ -19,10 +19,6 @@ namespace sweepr {
 
         for (int i = 0; i < this->board_size; i++) {
             this->grid[i] = new Cell[this->board_size];
-
-            for (int j = 0; j < this->board_size; j++) {
-                this->grid[i][j] = Cell();
-            }
         }
     }
 
