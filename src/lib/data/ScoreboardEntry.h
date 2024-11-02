@@ -1,16 +1,16 @@
-#ifndef LIB_DATA_LEADERBOARD_ENTRY
-#define LIB_DATA_LEADERBOARD_ENTRY
+#ifndef LIB_DATA_SCOREBOARD_ENTRY
+#define LIB_DATA_SCOREBOARD_ENTRY
 
 #include <string>
 
 namespace sweepr::data {
-    class LeaderboardEntry {
+    class ScoreboardEntry {
     private:
         std::string name;
         int turns_taken;
 
     public:
-        LeaderboardEntry(const std::string& name, const int turns_taken);
+        ScoreboardEntry(const std::string& name, const int turns_taken);
 
         const std::string& get_name() const;
 

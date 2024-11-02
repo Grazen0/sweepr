@@ -1,7 +1,7 @@
 #include <ctime>
 #include <iostream>
 #include "lib/GameState.h"
-#include "lib/data/Leaderboard.h"
+#include "lib/data/Scoreboard.h"
 #include "lib/data/data.h"
 #include "lib/specs.h"
 #include "lib/util.h"
@@ -10,9 +10,9 @@ namespace util = sweepr::util;
 namespace specs = sweepr::specs;
 namespace data = sweepr::data;
 
-void print_leaderboard_section(data::Leaderboard& leaderboard,
-                               const int difficulty, const char label[]) {
-    const auto& entries = leaderboard.get_entries(difficulty);
+void print_scoreboard_section(data::Scoreboard& scoreboard,
+                              const int difficulty, const char label[]) {
+    const auto& entries = scoreboard.get_entries(difficulty);
 
     std::cout << label << ':' << std::endl;
 
@@ -87,19 +87,19 @@ int main() {
                 break;
             }
             case 2: {
-                data::Leaderboard leaderboard = data::load_leaderboard();
+                data::Scoreboard scoreboard = data::load_scoreboard();
 
                 util::clear_screen();
 
                 std::cout << "Mejores jugadores:" << std::endl;
                 std::cout << std::endl;
 
-                print_leaderboard_section(leaderboard, specs::DIFFICULTY_EASY,
-                                          "Fácil");
-                print_leaderboard_section(leaderboard, specs::DIFFICULTY_MEDIUM,
-                                          "Intermedio");
-                print_leaderboard_section(leaderboard, specs::DIFFICULTY_HARD,
-                                          "Difícil");
+                print_scoreboard_section(scoreboard, specs::DIFFICULTY_EASY,
+                                         "Fácil");
+                print_scoreboard_section(scoreboard, specs::DIFFICULTY_MEDIUM,
+                                         "Intermedio");
+                print_scoreboard_section(scoreboard, specs::DIFFICULTY_HARD,
+                                         "Difícil");
 
                 std::cout << std::endl;
                 std::cout << "Presiona enter para volver al menú principal...";

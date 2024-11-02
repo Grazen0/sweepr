@@ -208,7 +208,7 @@ namespace sweepr {
                                  "celdas sin mina!"
                               << std::endl;
 
-                    data::Leaderboard leaderboard = data::load_leaderboard();
+                    data::Scoreboard scoreboard = data::load_scoreboard();
 
                     std::string player_name;
 
@@ -218,9 +218,9 @@ namespace sweepr {
                     } while (player_name.find(data::ENTRY_SEPARATOR) !=
                              std::string::npos);
 
-                    leaderboard.add_entry(this->difficulty, player_name, turns);
+                    scoreboard.add_entry(this->difficulty, player_name, turns);
 
-                    data::save_leaderboard(leaderboard);
+                    data::save_scoreboard(scoreboard);
 
                     std::cout << "Tu puntuación ha sido guardada en la tabla "
                                  "de puntuaciones"

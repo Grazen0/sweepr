@@ -1,11 +1,11 @@
-#include "Leaderboard.h"
+#include "Scoreboard.h"
 #include <vector>
 #include "../specs.h"
-#include "LeaderboardEntry.h"
+#include "ScoreboardEntry.h"
 #include "data.h"
 
 namespace sweepr::data {
-    std::vector<LeaderboardEntry>& Leaderboard::get_entries(
+    std::vector<ScoreboardEntry>& Scoreboard::get_entries(
         const int difficulty) {
         switch (difficulty) {
             case specs::DIFFICULTY_EASY:
@@ -18,9 +18,9 @@ namespace sweepr::data {
         }
     }
 
-    void Leaderboard::add_entry(const int difficulty, const std::string& name,
-                                const int turns_taken) {
-        std::vector<LeaderboardEntry>& target_vec =
+    void Scoreboard::add_entry(const int difficulty, const std::string& name,
+                               const int turns_taken) {
+        std::vector<ScoreboardEntry>& target_vec =
             this->get_entries(difficulty);
 
         auto it = target_vec.begin();
@@ -29,7 +29,7 @@ namespace sweepr::data {
             ++it;
         }
 
-        target_vec.insert(it, LeaderboardEntry(name, turns_taken));
+        target_vec.insert(it, ScoreboardEntry(name, turns_taken));
 
         if (target_vec.size() > MAX_ENTRIES) {
             target_vec.pop_back();

@@ -2,10 +2,10 @@
 #include <fstream>
 #include <string>
 #include "../specs.h"
-#include "LeaderboardEntry.h"
+#include "ScoreboardEntry.h"
 
 namespace sweepr::data {
-    LeaderboardEntry* parse_entry(const std::string& line) {
+    ScoreboardEntry* parse_entry(const std::string& line) {
         const auto separator_index = line.find(ENTRY_SEPARATOR);
 
         if (separator_index == std::string::npos) {
@@ -17,17 +17,17 @@ namespace sweepr::data {
             line.substr(separator_index + 1, line.size());
 
         // TODO: handle parsing errors
-        return new LeaderboardEntry(name, std::stoi(turns_str));
+        return new ScoreboardEntry(name, std::stoi(turns_str));
     }
 
-    void parse_entry_section(Leaderboard& leaderboard, std::ifstream& file,
+    void parse_entry_section(Scoreboard& scoreboard, std::ifstream& file,
                              const int difficulty) {
-        auto& entries = leaderboard.get_entries(difficulty);
+        auto& entries = scoreboard.get_entries(difficulty);
         std::string line;
 
         while (std::getline(file, line) && !line.empty()) {
             // Usamos un puntero por la posibilidad de no retornar nada
-            LeaderboardEntry* entry = parse_entry(line);
+            ScoreboardEntry* entry = parse_entry(line);
 
             if (entry == nullptr)
                 return;
@@ -37,25 +37,25 @@ namespace sweepr::data {
         }
     }
 
-    Leaderboard load_leaderboard() {
+    Scoreboard load_scoreboard() {
         std::ifstream file(DATA_FILENAME);
-        Leaderboard leaderboard;
+        Scoreboard scoreboard;
 
         if (!file.is_open()) {
-            return leaderboard;
+            return scoreboard;
         }
 
-        parse_entry_section(leaderboard, file, specs::DIFFICULTY_EASY);
-        parse_entry_section(leaderboard, file, specs::DIFFICULTY_MEDIUM);
-        parse_entry_section(leaderboard, file, specs::DIFFICULTY_HARD);
+        parse_entry_section(scoreboard, file, specs::DIFFICULTY_EASY);
+        parse_entry_section(scoreboard, file, specs::DIFFICULTY_MEDIUM);
+        parse_entry_section(scoreboard, file, specs::DIFFICULTY_HARD);
 
         file.close();
-        return leaderboard;
+        return scoreboard;
     }
 
-    void write_leaderboard_section(Leaderboard& leaderboard,
-                                   const int difficulty, std::ofstream& file) {
-        const auto& entries = leaderboard.get_entries(difficulty);
+    void write_scoreboard_section(Scoreboard& scoreboard, const int difficulty,
+                                  std::ofstream& file) {
+        const auto& entries = scoreboard.get_entries(difficulty);
 
         for (const auto& entry : entries) {
             file << entry.get_name() << ENTRY_SEPARATOR
@@ -65,12 +65,12 @@ namespace sweepr::data {
         file << '\n';
     }
 
-    void save_leaderboard(Leaderboard& leaderboard) {
+    void save_scoreboard(Scoreboard& scoreboard) {
         std::ofstream file(DATA_FILENAME);
 
-        write_leaderboard_section(leaderboard, specs::DIFFICULTY_EASY, file);
-        write_leaderboard_section(leaderboard, specs::DIFFICULTY_MEDIUM, file);
-        write_leaderboard_section(leaderboard, specs::DIFFICULTY_HARD, file);
+        write_scoreboard_section(scoreboard, specs::DIFFICULTY_EASY, file);
+        write_scoreboard_section(scoreboard, specs::DIFFICULTY_MEDIUM, file);
+        write_scoreboard_section(scoreboard, specs::DIFFICULTY_HARD, file);
         file.close();
     }
 }

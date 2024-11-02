@@ -1,16 +1,16 @@
 #ifndef LIB_DATA
 #define LIB_DATA
 
-#include "Leaderboard.h"
+#include "Scoreboard.h"
 
 namespace sweepr::data {
     constexpr int MAX_ENTRIES = 5;
     constexpr char DATA_FILENAME[] = "scores.txt";
     constexpr char ENTRY_SEPARATOR = ':';
 
-    Leaderboard load_leaderboard();
+    Scoreboard load_scoreboard();
 
-    void save_leaderboard(Leaderboard& leaderboard);
+    void save_scoreboard(Scoreboard& scoreboard);
 }
 
 #endif
