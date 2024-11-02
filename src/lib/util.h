@@ -7,7 +7,7 @@ namespace sweepr::util {
 
     int rand_range(const int min, const int max);
 
-    void shuffle_first_n(std::vector<int> vec, const int n);
+    void shuffle_first_n(std::vector<int>& vec, const int n);
 
     char to_lowercase(const char ch);
 }

@@ -1,5 +1,4 @@
 #include "util.h"
-#include <cstdlib>
 #include <iostream>
 #include <vector>
 
@@ -13,7 +12,7 @@ int sweepr::util::rand_range(const int min, const int max) {
 }
 
 // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-void sweepr::util::shuffle_first_n(std::vector<int> vec, const int n) {
+void sweepr::util::shuffle_first_n(std::vector<int>& vec, const int n) {
     for (int i = 0; i < n; i++) {
         const int swap_target = rand_range(i, vec.size() - 1);
 
