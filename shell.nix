@@ -3,7 +3,6 @@
     nativeBuildInputs = with pkgs; [
       cmake
       gcc
-      git
     ];
   };
 }
