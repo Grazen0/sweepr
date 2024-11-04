@@ -74,6 +74,8 @@ namespace sweepr {
                     case STATE_LOSS: {
                         if (cell.is_mine()) {
                             std::cout << 'X';
+                        } else if (cell.is_flagged()) {
+                            std::cout << 'F';
                         } else if (cell.is_discovered()) {
                             std::cout << cell.get_adjacent_mines();
                         } else {
