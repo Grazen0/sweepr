@@ -18,6 +18,19 @@ namespace sweepr::data {
         }
     }
 
+    const std::vector<ScoreboardEntry>& Scoreboard::get_entries(
+        const int difficulty) const {
+        switch (difficulty) {
+            case specs::DIFFICULTY_EASY:
+                return this->easy_entries;
+            case specs::DIFFICULTY_MEDIUM:
+                return this->medium_entries;
+            case specs::DIFFICULTY_HARD:
+            default:  // No debería ser así, pero no hay de otra
+                return this->hard_entries;
+        }
+    }
+
     void Scoreboard::add_entry(const int difficulty, const std::string& name,
                                const int turns_taken) {
         std::vector<ScoreboardEntry>& target_vec =

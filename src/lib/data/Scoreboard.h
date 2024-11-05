@@ -14,6 +14,9 @@ namespace sweepr::data {
     public:
         std::vector<ScoreboardEntry>& get_entries(const int difficulty);
 
+        const std::vector<ScoreboardEntry>& get_entries(
+            const int difficulty) const;
+
         void add_entry(const int difficulty, const std::string& name,
                        const int turns_taken);
     };

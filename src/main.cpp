@@ -10,7 +10,7 @@ namespace util = sweepr::util;
 namespace specs = sweepr::specs;
 namespace data = sweepr::data;
 
-void print_scoreboard_section(data::Scoreboard& scoreboard,
+void print_scoreboard_section(const data::Scoreboard& scoreboard,
                               const int difficulty, const char label[]) {
     const auto& entries = scoreboard.get_entries(difficulty);
 
@@ -87,7 +87,7 @@ int main() {
                 break;
             }
             case 2: {
-                data::Scoreboard scoreboard = data::load_scoreboard();
+                const data::Scoreboard scoreboard = data::load_scoreboard();
 
                 util::clear_screen();
 
