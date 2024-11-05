@@ -57,8 +57,7 @@ int main() {
         std::cout << "2. Mejores jugares" << std::endl;
         std::cout << "3. Salir" << std::endl;
 
-        int selection;
-        std::cin >> selection;
+        const int selection = util::safe_prompt<int>();
 
         std::cout << std::endl;
 
@@ -69,14 +68,13 @@ int main() {
                 std::cout << "2. Intermedio" << std::endl;
                 std::cout << "3. Difícil" << std::endl;
 
-                int difficulty;
-                std::cin >> difficulty;
+                int difficulty = util::safe_prompt<int>();
 
                 while (difficulty < specs::DIFFICULTY_EASY ||
                        difficulty > specs::DIFFICULTY_HARD) {
                     std::cout << "Selección inválida." << std::endl;
 
-                    std::cin >> difficulty;
+                    difficulty = util::safe_prompt<int>();
                 }
 
                 sweepr::GameState game(difficulty);

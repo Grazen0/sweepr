@@ -124,7 +124,8 @@ namespace sweepr {
 
                     auto& cell = grid[k][l];
 
-                    if (!cell.is_discovered() && !cell.is_mine()) {
+                    if (!cell.is_discovered() && !cell.is_mine() &&
+                        !cell.is_flagged()) {
                         cell.set_discovered(true);
                         stack.push_back({k, l});
                     }
@@ -178,18 +179,11 @@ namespace sweepr {
         bool initialized = false;
         int turns = 0;
 
-        std::string error_message;
+        std::string status_message = "-";
 
         while (!done) {
             turns++;
             util::clear_screen();
-
-            if (!error_message.empty()) {
-                std::cout << error_message << std::endl;
-                std::cout << std::endl;
-
-                error_message = "";
-            }
 
             std::cout << "Minas: " << this->mine_count
                       << " | Banderas: " << this->flag_count << std::endl;
@@ -197,6 +191,10 @@ namespace sweepr {
             std::cout << std::endl;
             this->print_grid();
             std::cout << std::endl;
+
+            std::cout << status_message << std::endl;
+            std::cout << std::endl;
+            status_message = "-";
 
             if (this->state != STATE_PLAYING) {
                 if (this->state == STATE_LOSS) {
@@ -208,13 +206,17 @@ namespace sweepr {
 
                     data::Scoreboard scoreboard = data::load_scoreboard();
 
-                    std::string player_name;
+                    std::cout << "Ingresa tu nombre: ";
+                    std::string player_name = util::safe_prompt<std::string>();
 
-                    do {
+                    while (player_name.find(data::ENTRY_SEPARATOR) !=
+                           std::string::npos) {
+                        std::cout << "Tu nombre no puede contener el caracter '"
+                                  << data::ENTRY_SEPARATOR << "'." << std::endl;
+
                         std::cout << "Ingresa tu nombre: ";
-                        std::cin >> player_name;
-                    } while (player_name.find(data::ENTRY_SEPARATOR) !=
-                             std::string::npos);
+                        player_name = util::safe_prompt<std::string>();
+                    }
 
                     scoreboard.add_entry(this->difficulty, player_name, turns);
 
@@ -231,30 +233,26 @@ namespace sweepr {
                 continue;
             }
 
-            int i, j;
             std::cout << "Seleccione una celda (fila columna): ";
-            std::cin >> i >> j;
-
-            i--;
-            j--;
+            const int i = util::safe_prompt<int>() - 1;
+            const int j = util::safe_prompt<int>() - 1;
 
             if (i < 0 || i >= this->board_size || j < 0 ||
                 j >= this->board_size) {
-                error_message = "Las coordenadas seleccionadas son inválidas.";
+                status_message = "Las coordenadas seleccionadas son inválidas.";
                 continue;
             }
 
             auto& cell = this->grid[i][j];
 
             if (cell.is_discovered()) {
-                error_message = "La casilla seleccionada ya está descubierta.";
+                status_message = "La casilla seleccionada ya está descubierta.";
                 continue;
             }
 
-            char action;
             std::cout
                 << "Ingrese 'F' para marcar con bandera o 'D' para descubrir: ";
-            std::cin >> action;
+            const char action = util::safe_prompt<char>();
 
             switch (util::to_lowercase(action)) {
                 case 'f': {
@@ -269,7 +267,7 @@ namespace sweepr {
                 }
                 case 'd': {
                     if (cell.is_flagged()) {
-                        error_message =
+                        status_message =
                             "La casilla seleccionada tiene bandera.";
                         break;
                     }
@@ -293,7 +291,7 @@ namespace sweepr {
                     break;
                 }
                 default: {
-                    error_message = "La acción seleccionada es incorrecta";
+                    status_message = "La acción seleccionada es incorrecta";
                     break;
                 }
             }

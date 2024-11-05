@@ -1,7 +1,6 @@
 #include "util.h"
 #include <iostream>
-#include <limits>
-#include <vector>
+#include <istream>
 
 namespace sweepr::util {
     void clear_screen() {
@@ -13,25 +12,10 @@ namespace sweepr::util {
         return min + std::rand() % (max - min + 1);
     }
 
-    // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
-    void shuffle_first_n(std::vector<std::pair<int, int>>& vec, const int n) {
-        for (int i = 0; i < n; i++) {
-            const int swap_target = rand_range(i, vec.size() - 1);
-
-            if (swap_target != i) {
-                const auto tmp = vec[i];
-                vec[i] = vec[swap_target];
-                vec[swap_target] = tmp;
-            }
-        }
-    }
-
+    // https://stackoverflow.com/questions/21032491/cin-get-isnt-working-as-it-should
     void wait_for_enter() {
-        // Vaciar el buffer de cin
-        // https://stackoverflow.com/questions/257091/how-do-i-flush-the-cin-buffer
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        // Procesar hasta un '\n'
-        std::cin.ignore();
+        std::cin.get();
     }
 
     char to_lowercase(const char ch) {
