@@ -41,8 +41,6 @@ int main() {
     std::string error_message;
 
     while (!exit) {
-        util::clear_screen();
-
         std::cout << GAME_BANNER << std::endl;
 
         if (!error_message.empty()) {
@@ -77,6 +75,8 @@ int main() {
                     difficulty = util::safe_prompt<int>();
                 }
 
+                std::cout << std::endl;
+
                 sweepr::GameState game(difficulty);
 
                 game.run();
@@ -86,8 +86,6 @@ int main() {
             }
             case 2: {
                 const data::Scoreboard scoreboard = data::load_scoreboard();
-
-                util::clear_screen();
 
                 std::cout << "Mejores jugadores:" << std::endl;
                 std::cout << std::endl;
@@ -105,7 +103,6 @@ int main() {
                 break;
             }
             case 3: {
-                util::clear_screen();
                 std::cout << "¡Hasta luego!" << std::endl;
                 exit = true;
                 break;

@@ -3,11 +3,6 @@
 #include <istream>
 
 namespace sweepr::util {
-    void clear_screen() {
-        // https://stackoverflow.com/questions/17335816/clear-screen-using-c
-        std::cout << "\033[2J\033[1;1H";
-    }
-
     int rand_range(const int min, const int max) {
         return min + std::rand() % (max - min + 1);
     }

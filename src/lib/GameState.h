@@ -1,6 +1,7 @@
 #ifndef LIB_GAME_STATE
 #define LIB_GAME_STATE
 
+#include <string>
 #include "Cell.h"
 
 namespace sweepr {
@@ -18,12 +19,15 @@ namespace sweepr {
         int flag_count;
         int discovered_count;
         int state;
+        bool initialized;
 
         int total_cells() const;
 
         void print_grid() const;
 
         void discover_cell(const int i, const int j);
+
+        std::string do_action(const int i, const int j, const char action);
 
     public:
         GameState(const int difficulty);

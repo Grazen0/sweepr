@@ -14,7 +14,8 @@ namespace sweepr {
           board_size(specs::get_board_size(difficulty)),
           flag_count(0),
           discovered_count(0),
-          state(STATE_PLAYING) {
+          state(STATE_PLAYING),
+          initialized(false) {
         this->grid = new Cell*[this->board_size];
 
         for (int i = 0; i < this->board_size; i++) {
@@ -174,27 +175,66 @@ namespace sweepr {
         }
     }
 
+    std::string GameState::do_action(const int i, const int j,
+                                     const char action) {
+        auto& cell = this->grid[i][j];
+
+        switch (util::to_lowercase(action)) {
+            case 'f': {
+                const bool is_now_flagged = cell.toggle_flagged();
+
+                if (is_now_flagged) {
+                    this->flag_count++;
+                } else {
+                    this->flag_count--;
+                }
+                break;
+            }
+            case 'd': {
+                if (cell.is_flagged()) {
+                    return "La casilla seleccionada tiene bandera.";
+                    break;
+                }
+
+                if (!this->initialized) {
+                    this->initialize_mines(i, j);
+                    this->initialized = true;
+                }
+
+                if (cell.is_mine()) {
+                    this->state = STATE_LOSS;
+                    break;
+                }
+
+                this->discover_cell(i, j);
+
+                if (this->discovered_count + this->mine_count ==
+                    this->total_cells()) {
+                    this->state = STATE_VICTORY;
+                }
+                break;
+            }
+            default: {
+                return "La acción seleccionada es incorrecta";
+                break;
+            }
+        }
+
+        return "";
+    }
+
     void GameState::run() {
         bool done = false;
-        bool initialized = false;
         int turns = 0;
-
-        std::string status_message = "-";
 
         while (!done) {
             turns++;
-            util::clear_screen();
-
             std::cout << "Minas: " << this->mine_count
                       << " | Banderas: " << this->flag_count << std::endl;
 
             std::cout << std::endl;
             this->print_grid();
             std::cout << std::endl;
-
-            std::cout << status_message << std::endl;
-            std::cout << std::endl;
-            status_message = "-";
 
             if (this->state != STATE_PLAYING) {
                 if (this->state == STATE_LOSS) {
@@ -206,16 +246,21 @@ namespace sweepr {
 
                     data::Scoreboard scoreboard = data::load_scoreboard();
 
-                    std::cout << "Ingresa tu nombre: ";
-                    std::string player_name = util::safe_prompt<std::string>();
+                    std::string player_name;
 
-                    while (player_name.find(data::ENTRY_SEPARATOR) !=
-                           std::string::npos) {
-                        std::cout << "Tu nombre no puede contener el caracter '"
-                                  << data::ENTRY_SEPARATOR << "'." << std::endl;
-
+                    while (true) {
                         std::cout << "Ingresa tu nombre: ";
                         player_name = util::safe_prompt<std::string>();
+
+                        if (player_name.find(data::ENTRY_SEPARATOR) !=
+                            std::string::npos) {
+                            std::cout
+                                << "Tu nombre no puede contener el caracter '"
+                                << data::ENTRY_SEPARATOR << "'." << std::endl;
+                            continue;
+                        }
+
+                        break;
                     }
 
                     scoreboard.add_entry(this->difficulty, player_name, turns);
@@ -233,67 +278,42 @@ namespace sweepr {
                 continue;
             }
 
-            std::cout << "Seleccione una celda (fila columna): ";
-            const int i = util::safe_prompt<int>() - 1;
-            const int j = util::safe_prompt<int>() - 1;
+            int i, j;
 
-            if (i < 0 || i >= this->board_size || j < 0 ||
-                j >= this->board_size) {
-                status_message = "Las coordenadas seleccionadas son inválidas.";
-                continue;
+            while (true) {
+                std::cout << "Seleccione una celda (fila columna): ";
+                i = util::safe_prompt<int>() - 1;
+                j = util::safe_prompt<int>() - 1;
+
+                if (i < 0 || i >= this->board_size || j < 0 ||
+                    j >= this->board_size) {
+                    std::cout << "Las coordenadas seleccionadas son inválidas."
+                              << std::endl;
+                    continue;
+                }
+
+                auto& cell = this->grid[i][j];
+
+                if (cell.is_discovered()) {
+                    std::cout << "La casilla seleccionada ya está descubierta."
+                              << std::endl;
+                    continue;
+                }
+
+                break;
             }
 
-            auto& cell = this->grid[i][j];
-
-            if (cell.is_discovered()) {
-                status_message = "La casilla seleccionada ya está descubierta.";
-                continue;
-            }
-
-            std::cout
-                << "Ingrese 'F' para marcar con bandera o 'D' para descubrir: ";
+            std::cout << "Ingrese 'F' para marcar con bandera o 'D' para "
+                         "descubrir: ";
             const char action = util::safe_prompt<char>();
 
-            switch (util::to_lowercase(action)) {
-                case 'f': {
-                    const bool is_now_flagged = cell.toggle_flagged();
+            std::cout << std::endl;
 
-                    if (is_now_flagged) {
-                        this->flag_count++;
-                    } else {
-                        this->flag_count--;
-                    }
-                    break;
-                }
-                case 'd': {
-                    if (cell.is_flagged()) {
-                        status_message =
-                            "La casilla seleccionada tiene bandera.";
-                        break;
-                    }
+            const std::string possible_error = this->do_action(i, j, action);
 
-                    if (!initialized) {
-                        this->initialize_mines(i, j);
-                        initialized = true;
-                    }
-
-                    if (cell.is_mine()) {
-                        this->state = STATE_LOSS;
-                        break;
-                    }
-
-                    this->discover_cell(i, j);
-
-                    if (this->discovered_count + this->mine_count ==
-                        this->total_cells()) {
-                        this->state = STATE_VICTORY;
-                    }
-                    break;
-                }
-                default: {
-                    status_message = "La acción seleccionada es incorrecta";
-                    break;
-                }
+            if (!possible_error.empty()) {
+                std::cout << possible_error << std::endl;
+                continue;
             }
         }
     }
