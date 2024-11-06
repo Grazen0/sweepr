@@ -252,6 +252,12 @@ namespace sweepr {
                         std::cout << "Ingresa tu nombre: ";
                         player_name = util::safe_prompt<std::string>();
 
+                        if (player_name.empty()) {
+                            std::cout << "Tu nombre no puede estar vacío."
+                                      << std::endl;
+                            continue;
+                        }
+
                         if (player_name.find(data::ENTRY_SEPARATOR) !=
                             std::string::npos) {
                             std::cout
