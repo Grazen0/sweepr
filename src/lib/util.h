@@ -28,7 +28,7 @@ namespace sweepr::util {
 
     // https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
     template <typename T>
-    void shuffle_first_n(std::vector<T>& vec, const int n) {
+    void partial_shuffle(std::vector<T>& vec, const int n) {
         for (int i = 0; i < n; i++) {
             const int swap_target = rand_range(i, vec.size() - 1);
 

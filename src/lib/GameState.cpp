@@ -138,7 +138,7 @@ namespace sweepr {
     void GameState::initialize_mines(const int start_i, const int start_j) {
         // Dato curioso: "ISO C++ forbids variable length array"
         std::vector<std::pair<int, int>> mine_candidates;
-        mine_candidates.reserve(this->total_cells() - 1);
+        mine_candidates.reserve(this->total_cells() - 9);
 
         for (int i = 0; i < this->board_size; i++) {
             for (int j = 0; j < this->board_size; j++) {
@@ -149,7 +149,7 @@ namespace sweepr {
             }
         }
 
-        util::shuffle_first_n(mine_candidates, this->mine_count);
+        util::partial_shuffle(mine_candidates, this->mine_count);
 
         for (int m = 0; m < this->mine_count; m++) {
             const auto& mine_position = mine_candidates[m];
