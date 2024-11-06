@@ -6,3 +6,4 @@ FixNamespaceComments: false
 AllowShortFunctionsOnASingleLine: Empty
 IncludeBlocks: Merge
 AllowShortIfStatementsOnASingleLine: Never
+DerivePointerAlignment: false
