@@ -3,11 +3,58 @@
 #include <iostream>
 #include <vector>
 #include "Cell.h"
+#include "color.h"
 #include "data/data.h"
 #include "specs.h"
 #include "util.h"
 
 namespace sweepr {
+    void print_flag() {
+        std::cout << color::FG_BRIGHT_RED << color::BOLD << 'F' << color::RESET;
+    }
+
+    void print_mine() {
+        std::cout << color::FG_RED << color::BOLD << 'X' << color::RESET;
+    }
+
+    void print_undiscovered() {
+        std::cout << color::FG_WHITE << '-' << color::RESET;
+    }
+
+    void print_number(const int n) {
+        switch (n) {
+            case 0:
+                std::cout << color::FG_BRIGHT_BLACK;
+                break;
+            case 1:
+                std::cout << color::FG_BRIGHT_BLUE;
+                break;
+            case 2:
+                std::cout << color::FG_BRIGHT_GREEN;
+                break;
+            case 3:
+                std::cout << color::FG_RED;
+                break;
+            case 4:
+                std::cout << color::FG_BRIGHT_MAGENTA;
+                break;
+            case 5:
+                std::cout << color::FG_GREEN;
+                break;
+            case 6:
+                std::cout << color::FG_CYAN;
+                break;
+            case 7:
+                std::cout << color::FG_BLUE;
+                break;
+            case 8:
+                std::cout << color::FG_MAGENTA;
+                break;
+        }
+
+        std::cout << n << color::RESET;
+    }
+
     GameState::GameState(const int difficulty)
         : difficulty(difficulty),
           mine_count(specs::generate_mine_count(difficulty)),
@@ -56,31 +103,31 @@ namespace sweepr {
                 switch (this->state) {
                     case STATE_PLAYING: {
                         if (cell.is_discovered()) {
-                            std::cout << cell.get_adjacent_mines();
+                            print_number(cell.get_adjacent_mines());
                         } else if (cell.is_flagged()) {
-                            std::cout << 'F';
+                            print_flag();
                         } else {
-                            std::cout << '-';
+                            print_undiscovered();
                         }
                         break;
                     }
                     case STATE_VICTORY: {
                         if (cell.is_mine()) {
-                            std::cout << 'F';
+                            print_mine();
                         } else {
-                            std::cout << cell.get_adjacent_mines();
+                            print_number(cell.get_adjacent_mines());
                         }
                         break;
                     }
                     case STATE_LOSS: {
                         if (cell.is_mine()) {
-                            std::cout << 'X';
+                            print_mine();
                         } else if (cell.is_flagged()) {
-                            std::cout << 'F';
+                            print_flag();
                         } else if (cell.is_discovered()) {
-                            std::cout << cell.get_adjacent_mines();
+                            print_number(cell.get_adjacent_mines());
                         } else {
-                            std::cout << '-';
+                            print_undiscovered();
                         }
                         break;
                     }
@@ -229,8 +276,10 @@ namespace sweepr {
 
         while (!done) {
             turns++;
-            std::cout << "Minas: " << this->mine_count
-                      << " | Banderas: " << this->flag_count << std::endl;
+            std::cout << "Minas: " << color::FG_RED << this->mine_count
+                      << color::FG_BRIGHT_BLACK << " | " << color::RESET
+                      << "Banderas: " << color::FG_RED << this->flag_count
+                      << color::RESET << std::endl;
 
             std::cout << std::endl;
             this->print_grid();

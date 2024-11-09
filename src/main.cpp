@@ -1,16 +1,13 @@
 #include <ctime>
 #include <iostream>
 #include "lib/GameState.h"
+#include "lib/color.h"
 #include "lib/data/Scoreboard.h"
 #include "lib/data/data.h"
 #include "lib/specs.h"
 #include "lib/util.h"
 
-namespace util = sweepr::util;
-namespace specs = sweepr::specs;
-namespace data = sweepr::data;
-
-void print_scoreboard_section(const data::Scoreboard& scoreboard,
+void print_scoreboard_section(const sweepr::data::Scoreboard& scoreboard,
                               const int difficulty, const char label[]) {
     const auto& entries = scoreboard.get_entries(difficulty);
 
@@ -41,7 +38,8 @@ int main() {
     std::string error_message;
 
     while (!exit) {
-        std::cout << GAME_BANNER << std::endl;
+        std::cout << sweepr::color::FG_BLUE << GAME_BANNER
+                  << sweepr::color::RESET << std::endl;
 
         if (!error_message.empty()) {
             std::cout << error_message << std::endl;
@@ -55,7 +53,7 @@ int main() {
         std::cout << "2. Mejores jugares" << std::endl;
         std::cout << "3. Salir" << std::endl;
 
-        const int selection = util::safe_prompt<int>();
+        const int selection = sweepr::util::safe_prompt<int>();
 
         std::cout << std::endl;
 
@@ -66,13 +64,13 @@ int main() {
                 std::cout << "2. Intermedio" << std::endl;
                 std::cout << "3. Difícil" << std::endl;
 
-                int difficulty = util::safe_prompt<int>();
+                int difficulty = sweepr::util::safe_prompt<int>();
 
-                while (difficulty < specs::DIFFICULTY_EASY ||
-                       difficulty > specs::DIFFICULTY_HARD) {
+                while (difficulty < sweepr::specs::DIFFICULTY_EASY ||
+                       difficulty > sweepr::specs::DIFFICULTY_HARD) {
                     std::cout << "Selección inválida." << std::endl;
 
-                    difficulty = util::safe_prompt<int>();
+                    difficulty = sweepr::util::safe_prompt<int>();
                 }
 
                 std::cout << std::endl;
@@ -85,21 +83,21 @@ int main() {
                 break;
             }
             case 2: {
-                const data::Scoreboard scoreboard = data::load_scoreboard();
+                const auto scoreboard = sweepr::data::load_scoreboard();
 
                 std::cout << "Mejores jugadores:" << std::endl;
                 std::cout << std::endl;
 
-                print_scoreboard_section(scoreboard, specs::DIFFICULTY_EASY,
-                                         "Fácil");
-                print_scoreboard_section(scoreboard, specs::DIFFICULTY_MEDIUM,
-                                         "Intermedio");
-                print_scoreboard_section(scoreboard, specs::DIFFICULTY_HARD,
-                                         "Difícil");
+                print_scoreboard_section(
+                    scoreboard, sweepr::specs::DIFFICULTY_EASY, "Fácil");
+                print_scoreboard_section(
+                    scoreboard, sweepr::specs::DIFFICULTY_MEDIUM, "Intermedio");
+                print_scoreboard_section(
+                    scoreboard, sweepr::specs::DIFFICULTY_HARD, "Difícil");
 
                 std::cout << std::endl;
                 std::cout << "Presiona enter para volver al menú principal...";
-                util::wait_for_enter();
+                sweepr::util::wait_for_enter();
                 break;
             }
             case 3: {
