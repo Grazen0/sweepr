@@ -7,8 +7,32 @@
 #include <windows.h>
 
 namespace color {
+
+    WORD getWindowsColorAttribute(const Color color) {
+        switch (color) {
+            case Color::Black: return 0;
+            case Color::Red: return FOREGROUND_RED;
+            case Color::Green: return FOREGROUND_GREEN;
+            case Color::Yellow: return FOREGROUND_RED | FOREGROUND_GREEN;
+            case Color::Blue: return FOREGROUND_BLUE;
+            case Color::Magenta: return FOREGROUND_RED | FOREGROUND_BLUE;
+            case Color::Cyan: return FOREGROUND_GREEN | FOREGROUND_BLUE;
+            case Color::White: return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+            case Color::BrightBlack: return FOREGROUND_INTENSITY;
+            case Color::BrightRed: return FOREGROUND_RED | FOREGROUND_INTENSITY;
+            case Color::BrightGreen: return FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+            case Color::BrightYellow: return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+            case Color::BrightBlue: return FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+            case Color::BrightMagenta: return FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+            case Color::BrightCyan: return FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+            case Color::BrightWhite: return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+            default: return 0;
+        }
+    }
+
     void reset() {
-        // TODO: implementar en windows
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
     }
 
     void set_style(const Style style) {
@@ -16,11 +40,14 @@ namespace color {
     }
 
     void set_foreground_color(const Color color) {
-        // TODO: implementar para windows
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        SetConsoleTextAttribute(hConsole, getWindowsColorAttribute(color));
     }
 
     void set_background_color(const Color color) {
-        // TODO: implementar en windows
+        HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+        WORD foreground = getWindowsColorAttribute(color) << 4;
+        SetConsoleTextAttribute(hConsole, foreground);
     }
 }
 
