@@ -6,33 +6,31 @@
 
 namespace sweepr::data {
     std::vector<ScoreboardEntry>& Scoreboard::get_entries(
-        const int difficulty) {
+        const specs::Difficulty::Difficulty difficulty) {
         switch (difficulty) {
-            case specs::DIFFICULTY_EASY:
+            case specs::Difficulty::Easy:
                 return this->easy_entries;
-            case specs::DIFFICULTY_MEDIUM:
+            case specs::Difficulty::Medium:
                 return this->medium_entries;
-            case specs::DIFFICULTY_HARD:
-            default:  // No debería ser así, pero no hay de otra
+            case specs::Difficulty::Hard:
                 return this->hard_entries;
         }
     }
 
     const std::vector<ScoreboardEntry>& Scoreboard::get_entries(
-        const int difficulty) const {
+        const specs::Difficulty::Difficulty difficulty) const {
         switch (difficulty) {
-            case specs::DIFFICULTY_EASY:
+            case specs::Difficulty::Easy:
                 return this->easy_entries;
-            case specs::DIFFICULTY_MEDIUM:
+            case specs::Difficulty::Medium:
                 return this->medium_entries;
-            case specs::DIFFICULTY_HARD:
-            default:  // No debería ser así, pero no hay de otra
+            case specs::Difficulty::Hard:
                 return this->hard_entries;
         }
     }
 
-    void Scoreboard::add_entry(const int difficulty, const std::string& name,
-                               const int turns_taken) {
+    void Scoreboard::add_entry(const specs::Difficulty::Difficulty difficulty,
+                               const std::string& name, const int turns_taken) {
         std::vector<ScoreboardEntry>& target_vec =
             this->get_entries(difficulty);
 

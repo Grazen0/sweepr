@@ -21,7 +21,7 @@ namespace sweepr::data {
     }
 
     void parse_entry_section(Scoreboard& scoreboard, std::ifstream& file,
-                             const int difficulty) {
+                             const specs::Difficulty::Difficulty difficulty) {
         auto& entries = scoreboard.get_entries(difficulty);
         std::string line;
 
@@ -45,16 +45,17 @@ namespace sweepr::data {
             return scoreboard;
         }
 
-        parse_entry_section(scoreboard, file, specs::DIFFICULTY_EASY);
-        parse_entry_section(scoreboard, file, specs::DIFFICULTY_MEDIUM);
-        parse_entry_section(scoreboard, file, specs::DIFFICULTY_HARD);
+        parse_entry_section(scoreboard, file, specs::Difficulty::Easy);
+        parse_entry_section(scoreboard, file, specs::Difficulty::Medium);
+        parse_entry_section(scoreboard, file, specs::Difficulty::Hard);
 
         file.close();
         return scoreboard;
     }
 
-    void write_scoreboard_section(Scoreboard& scoreboard, const int difficulty,
-                                  std::ofstream& file) {
+    void write_scoreboard_section(
+        Scoreboard& scoreboard, const specs::Difficulty::Difficulty difficulty,
+        std::ofstream& file) {
         const auto& entries = scoreboard.get_entries(difficulty);
 
         for (const auto& entry : entries) {
@@ -68,9 +69,9 @@ namespace sweepr::data {
     void save_scoreboard(Scoreboard& scoreboard) {
         std::ofstream file(DATA_FILENAME);
 
-        write_scoreboard_section(scoreboard, specs::DIFFICULTY_EASY, file);
-        write_scoreboard_section(scoreboard, specs::DIFFICULTY_MEDIUM, file);
-        write_scoreboard_section(scoreboard, specs::DIFFICULTY_HARD, file);
+        write_scoreboard_section(scoreboard, specs::Difficulty::Easy, file);
+        write_scoreboard_section(scoreboard, specs::Difficulty::Medium, file);
+        write_scoreboard_section(scoreboard, specs::Difficulty::Hard, file);
         file.close();
     }
 }

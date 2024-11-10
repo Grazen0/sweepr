@@ -7,8 +7,10 @@
 #include "lib/specs.h"
 #include "lib/util.h"
 
-void print_scoreboard_section(const sweepr::data::Scoreboard& scoreboard,
-                              const int difficulty, const char label[]) {
+void print_scoreboard_section(
+    const sweepr::data::Scoreboard& scoreboard,
+    const sweepr::specs::Difficulty::Difficulty difficulty,
+    const char label[]) {
     const auto& entries = scoreboard.get_entries(difficulty);
 
     std::cout << label << ':' << std::endl;
@@ -66,16 +68,28 @@ int main() {
                 std::cout << "2. Intermedio" << std::endl;
                 std::cout << "3. Difícil" << std::endl;
 
-                int difficulty = sweepr::util::safe_prompt<int>();
+                int difficulty_selection = sweepr::util::safe_prompt<int>();
 
-                while (difficulty < sweepr::specs::DIFFICULTY_EASY ||
-                       difficulty > sweepr::specs::DIFFICULTY_HARD) {
+                while (difficulty_selection < 1 || difficulty_selection > 3) {
                     std::cout << "Selección inválida." << std::endl;
-
-                    difficulty = sweepr::util::safe_prompt<int>();
+                    difficulty_selection = sweepr::util::safe_prompt<int>();
                 }
 
                 std::cout << std::endl;
+
+                sweepr::specs::Difficulty::Difficulty difficulty;
+
+                switch (difficulty_selection) {
+                    case 1:
+                        difficulty = sweepr::specs::Difficulty::Easy;
+                        break;
+                    case 2:
+                        difficulty = sweepr::specs::Difficulty::Medium;
+                        break;
+                    case 3:
+                        difficulty = sweepr::specs::Difficulty::Hard;
+                        break;
+                }
 
                 sweepr::GameState game(difficulty);
 
@@ -91,11 +105,12 @@ int main() {
                 std::cout << std::endl;
 
                 print_scoreboard_section(
-                    scoreboard, sweepr::specs::DIFFICULTY_EASY, "Fácil");
+                    scoreboard, sweepr::specs::Difficulty::Easy, "Fácil");
+                print_scoreboard_section(scoreboard,
+                                         sweepr::specs::Difficulty::Medium,
+                                         "Intermedio");
                 print_scoreboard_section(
-                    scoreboard, sweepr::specs::DIFFICULTY_MEDIUM, "Intermedio");
-                print_scoreboard_section(
-                    scoreboard, sweepr::specs::DIFFICULTY_HARD, "Difícil");
+                    scoreboard, sweepr::specs::Difficulty::Hard, "Difícil");
 
                 std::cout << std::endl;
                 std::cout << "Presiona enter para volver al menú principal...";

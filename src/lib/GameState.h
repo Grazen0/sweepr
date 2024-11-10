@@ -3,6 +3,7 @@
 
 #include <string>
 #include "Cell.h"
+#include "specs.h"
 
 namespace sweepr {
     constexpr int STATE_PLAYING = 0;
@@ -11,7 +12,7 @@ namespace sweepr {
 
     class GameState {
     private:
-        const int difficulty;
+        const specs::Difficulty::Difficulty difficulty;
         const int mine_count;
         const int board_size;
         sweepr::Cell** grid;  // Matriz de celdas
@@ -30,7 +31,7 @@ namespace sweepr {
         std::string do_action(const int i, const int j, const char action);
 
     public:
-        GameState(const int difficulty);
+        GameState(const specs::Difficulty::Difficulty difficulty);
 
         ~GameState();
 

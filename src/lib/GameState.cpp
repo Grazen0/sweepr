@@ -64,7 +64,7 @@ namespace sweepr {
         color::reset();
     }
 
-    GameState::GameState(const int difficulty)
+    GameState::GameState(const specs::Difficulty::Difficulty difficulty)
         : difficulty(difficulty),
           mine_count(specs::generate_mine_count(difficulty)),
           board_size(specs::get_board_size(difficulty)),

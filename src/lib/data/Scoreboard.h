@@ -2,6 +2,7 @@
 #define LIB_DATA_SCOREBOARD
 
 #include <vector>
+#include "../specs.h"
 #include "ScoreboardEntry.h"
 
 namespace sweepr::data {
@@ -12,13 +13,14 @@ namespace sweepr::data {
         std::vector<ScoreboardEntry> hard_entries;
 
     public:
-        std::vector<ScoreboardEntry>& get_entries(const int difficulty);
+        std::vector<ScoreboardEntry>& get_entries(
+            const specs::Difficulty::Difficulty difficulty);
 
         const std::vector<ScoreboardEntry>& get_entries(
-            const int difficulty) const;
+            const specs::Difficulty::Difficulty difficulty) const;
 
-        void add_entry(const int difficulty, const std::string& name,
-                       const int turns_taken);
+        void add_entry(const specs::Difficulty::Difficulty difficulty,
+                       const std::string& name, const int turns_taken);
     };
 }
 
