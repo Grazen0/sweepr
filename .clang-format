@@ -7,3 +7,4 @@ AllowShortFunctionsOnASingleLine: Empty
 IncludeBlocks: Merge
 AllowShortIfStatementsOnASingleLine: Never
 DerivePointerAlignment: false
+AllowShortEnumsOnASingleLine: false
