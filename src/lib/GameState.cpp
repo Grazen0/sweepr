@@ -69,7 +69,7 @@ GameState::GameState(const specs::Difficulty difficulty)
       board_size(specs::get_board_size(difficulty)),
       flag_count(0),
       discovered_count(0),
-      state(STATE_PLAYING),
+      state(State::Playing),
       initialized(false) {
     this->grid = new Cell*[this->board_size];
 
@@ -109,7 +109,7 @@ void GameState::print_grid() const {
             const Cell& cell = this->grid[i][j];
 
             switch (this->state) {
-                case STATE_PLAYING: {
+                case State::Playing: {
                     if (cell.is_discovered()) {
                         print_number(cell.get_adjacent_mines());
                     } else if (cell.is_flagged()) {
@@ -119,7 +119,7 @@ void GameState::print_grid() const {
                     }
                     break;
                 }
-                case STATE_VICTORY: {
+                case State::Victory: {
                     if (cell.is_mine()) {
                         print_mine();
                     } else {
@@ -127,7 +127,7 @@ void GameState::print_grid() const {
                     }
                     break;
                 }
-                case STATE_LOSS: {
+                case State::Loss: {
                     if (cell.is_mine()) {
                         print_mine();
                     } else if (cell.is_flagged()) {
@@ -256,7 +256,7 @@ std::string GameState::do_action(const int i, const int j, const char action) {
             }
 
             if (cell.is_mine()) {
-                this->state = STATE_LOSS;
+                this->state = State::Loss;
                 break;
             }
 
@@ -264,7 +264,7 @@ std::string GameState::do_action(const int i, const int j, const char action) {
 
             if (this->discovered_count + this->mine_count ==
                 this->total_cells()) {
-                this->state = STATE_VICTORY;
+                this->state = State::Victory;
             }
             break;
         }
@@ -290,10 +290,10 @@ void GameState::run() {
         this->print_grid();
         std::cout << std::endl;
 
-        if (this->state != STATE_PLAYING) {
-            if (this->state == STATE_LOSS) {
+        if (this->state != State::Playing) {
+            if (this->state == State::Loss) {
                 std::cout << "¡Has descubierto una mina!" << std::endl;
-            } else if (this->state == STATE_VICTORY) {
+            } else if (this->state == State::Victory) {
                 std::cout << "¡Felicidades! ¡Has descubierto todas las "
                              "celdas sin mina!"
                           << std::endl;

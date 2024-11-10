@@ -5,12 +5,14 @@
 #include "Cell.h"
 #include "specs.h"
 
-constexpr int STATE_PLAYING = 0;
-constexpr int STATE_VICTORY = 1;
-constexpr int STATE_LOSS = 2;
-
 class GameState {
 private:
+    enum class State {
+        Playing,
+        Victory,
+        Loss
+    };
+
     const specs::Difficulty difficulty;
     const int mine_count;
     const int board_size;
@@ -18,7 +20,7 @@ private:
 
     int flag_count;
     int discovered_count;
-    int state;
+    State state;
     bool initialized;
 
     int total_cells() const;
