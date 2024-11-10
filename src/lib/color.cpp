@@ -1,6 +1,7 @@
 #include "color.h"
 #include <iostream>
 
+// https://stackoverflow.com/a/33260104/14766637
 #if __has_include(<windows.h>)
 
 #include <windows.h>
