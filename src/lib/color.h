@@ -2,7 +2,7 @@
 #define LIB_COLOR
 
 namespace color {
-    // https://www.geeksforgeeks.org/enumeration-in-cpp/
+    // https://www.geeksforgeeks.org/enum-classes-in-c-and-their-advantage-over-enum-datatype/
     enum class Color {
         Black,
         Red,
