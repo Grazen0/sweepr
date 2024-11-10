@@ -10,49 +10,58 @@
 
 namespace sweepr {
     void print_flag() {
-        std::cout << color::FG_BRIGHT_RED << color::BOLD << 'F' << color::RESET;
+        color::set_foreground_color(color::BrightRed);
+        color::set_style(color::Bold);
+        std::cout << 'X';
+        color::reset();
     }
 
     void print_mine() {
-        std::cout << color::FG_RED << color::BOLD << 'X' << color::RESET;
+        color::set_foreground_color(color::Red);
+        color::set_style(color::Bold);
+        std::cout << 'X';
+        color::reset();
     }
 
     void print_undiscovered() {
-        std::cout << color::FG_WHITE << '-' << color::RESET;
+        color::set_foreground_color(color::White);
+        std::cout << '-';
+        color::reset();
     }
 
     void print_number(const int n) {
         switch (n) {
             case 0:
-                std::cout << color::FG_BRIGHT_BLACK;
+                color::set_foreground_color(color::BrightBlack);
                 break;
             case 1:
-                std::cout << color::FG_BRIGHT_BLUE;
+                color::set_foreground_color(color::BrightBlue);
                 break;
             case 2:
-                std::cout << color::FG_BRIGHT_GREEN;
+                color::set_foreground_color(color::BrightGreen);
                 break;
             case 3:
-                std::cout << color::FG_RED;
+                color::set_foreground_color(color::Red);
                 break;
             case 4:
-                std::cout << color::FG_BRIGHT_MAGENTA;
+                color::set_foreground_color(color::BrightMagenta);
                 break;
             case 5:
-                std::cout << color::FG_GREEN;
+                color::set_foreground_color(color::Green);
                 break;
             case 6:
-                std::cout << color::FG_CYAN;
+                color::set_foreground_color(color::Cyan);
                 break;
             case 7:
-                std::cout << color::FG_BLUE;
+                color::set_foreground_color(color::Blue);
                 break;
             case 8:
-                std::cout << color::FG_MAGENTA;
+                color::set_foreground_color(color::Magenta);
                 break;
         }
 
-        std::cout << n << color::RESET;
+        std::cout << n;
+        color::reset();
     }
 
     GameState::GameState(const int difficulty)
@@ -276,10 +285,8 @@ namespace sweepr {
 
         while (!done) {
             turns++;
-            std::cout << "Minas: " << color::FG_RED << this->mine_count
-                      << color::FG_BRIGHT_BLACK << " | " << color::RESET
-                      << "Banderas: " << color::FG_RED << this->flag_count
-                      << color::RESET << std::endl;
+            std::cout << "Minas: " << this->mine_count << " | "
+                      << "Banderas: " << this->flag_count << std::endl;
 
             std::cout << std::endl;
             this->print_grid();

@@ -38,8 +38,10 @@ int main() {
     std::string error_message;
 
     while (!exit) {
-        std::cout << sweepr::color::FG_BLUE << GAME_BANNER
-                  << sweepr::color::RESET << std::endl;
+        sweepr::color::set_foreground_color(sweepr::color::Blue);
+        sweepr::color::set_style(sweepr::color::Bold);
+        std::cout << GAME_BANNER << std::endl;
+        sweepr::color::reset();
 
         if (!error_message.empty()) {
             std::cout << error_message << std::endl;
