@@ -4,9 +4,9 @@
 #include "ScoreboardEntry.h"
 #include "data.h"
 
-namespace sweepr::data {
+namespace data {
     std::vector<ScoreboardEntry>& Scoreboard::get_entries(
-        const specs::Difficulty::Difficulty difficulty) {
+        const specs::Difficulty difficulty) {
         switch (difficulty) {
             case specs::Difficulty::Easy:
                 return this->easy_entries;
@@ -18,7 +18,7 @@ namespace sweepr::data {
     }
 
     const std::vector<ScoreboardEntry>& Scoreboard::get_entries(
-        const specs::Difficulty::Difficulty difficulty) const {
+        const specs::Difficulty difficulty) const {
         switch (difficulty) {
             case specs::Difficulty::Easy:
                 return this->easy_entries;
@@ -29,7 +29,7 @@ namespace sweepr::data {
         }
     }
 
-    void Scoreboard::add_entry(const specs::Difficulty::Difficulty difficulty,
+    void Scoreboard::add_entry(const specs::Difficulty difficulty,
                                const std::string& name, const int turns_taken) {
         std::vector<ScoreboardEntry>& target_vec =
             this->get_entries(difficulty);

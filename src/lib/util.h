@@ -6,7 +6,7 @@
 #include <utility>
 #include <vector>
 
-namespace sweepr::util {
+namespace util {
     // Cuando se usan templates, la definición de la cosa en cuestión debe estar
     // en el mismo header
     // https://www.geeksforgeeks.org/how-to-handle-wrong-data-type-input-in-cpp/

@@ -2,7 +2,7 @@
 #include <iostream>
 #include <istream>
 
-namespace sweepr::util {
+namespace util {
     int rand_range(const int min, const int max) {
         return min + std::rand() % (max - min + 1);
     }

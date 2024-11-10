@@ -5,7 +5,7 @@
 
 #include <windows.h>
 
-namespace sweepr::color {
+namespace color {
     void reset() {
         // TODO: implementar en windows
     }
@@ -25,7 +25,7 @@ namespace sweepr::color {
 
 #else
 
-namespace sweepr::color {
+namespace color {
     void reset() {
         std::cout << "\033[0m";
     }

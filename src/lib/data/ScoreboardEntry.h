@@ -3,7 +3,7 @@
 
 #include <string>
 
-namespace sweepr::data {
+namespace data {
     class ScoreboardEntry {
     private:
         std::string name;

@@ -5,44 +5,42 @@
 #include "Cell.h"
 #include "specs.h"
 
-namespace sweepr {
-    constexpr int STATE_PLAYING = 0;
-    constexpr int STATE_VICTORY = 1;
-    constexpr int STATE_LOSS = 2;
+constexpr int STATE_PLAYING = 0;
+constexpr int STATE_VICTORY = 1;
+constexpr int STATE_LOSS = 2;
 
-    class GameState {
-    private:
-        const specs::Difficulty::Difficulty difficulty;
-        const int mine_count;
-        const int board_size;
-        sweepr::Cell** grid;  // Matriz de celdas
+class GameState {
+private:
+    const specs::Difficulty difficulty;
+    const int mine_count;
+    const int board_size;
+    Cell** grid;  // Matriz de celdas
 
-        int flag_count;
-        int discovered_count;
-        int state;
-        bool initialized;
+    int flag_count;
+    int discovered_count;
+    int state;
+    bool initialized;
 
-        int total_cells() const;
+    int total_cells() const;
 
-        void print_grid() const;
+    void print_grid() const;
 
-        void discover_cell(const int i, const int j);
+    void discover_cell(const int i, const int j);
 
-        std::string do_action(const int i, const int j, const char action);
+    std::string do_action(const int i, const int j, const char action);
 
-    public:
-        GameState(const specs::Difficulty::Difficulty difficulty);
+public:
+    GameState(const specs::Difficulty difficulty);
 
-        ~GameState();
+    ~GameState();
 
-        void initialize_mines(const int safe_i, const int safe_j);
+    void initialize_mines(const int safe_i, const int safe_j);
 
-        void run();
+    void run();
 
-        int get_difficulty() const;
+    specs::Difficulty get_difficulty() const;
 
-        int get_board_size() const;
-    };
-}
+    int get_board_size() const;
+};
 
 #endif

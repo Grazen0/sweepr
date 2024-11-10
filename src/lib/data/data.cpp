@@ -4,7 +4,7 @@
 #include "../specs.h"
 #include "ScoreboardEntry.h"
 
-namespace sweepr::data {
+namespace data {
     ScoreboardEntry* parse_entry(const std::string& line) {
         const auto separator_index = line.find(ENTRY_SEPARATOR);
 
@@ -21,7 +21,7 @@ namespace sweepr::data {
     }
 
     void parse_entry_section(Scoreboard& scoreboard, std::ifstream& file,
-                             const specs::Difficulty::Difficulty difficulty) {
+                             const specs::Difficulty difficulty) {
         auto& entries = scoreboard.get_entries(difficulty);
         std::string line;
 
@@ -54,7 +54,7 @@ namespace sweepr::data {
     }
 
     void write_scoreboard_section(
-        Scoreboard& scoreboard, const specs::Difficulty::Difficulty difficulty,
+        Scoreboard& scoreboard, const specs::Difficulty difficulty,
         std::ofstream& file) {
         const auto& entries = scoreboard.get_entries(difficulty);
 

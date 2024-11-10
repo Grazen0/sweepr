@@ -5,7 +5,7 @@
 #include "../specs.h"
 #include "ScoreboardEntry.h"
 
-namespace sweepr::data {
+namespace data {
     class Scoreboard {
     private:
         std::vector<ScoreboardEntry> easy_entries;
@@ -14,12 +14,12 @@ namespace sweepr::data {
 
     public:
         std::vector<ScoreboardEntry>& get_entries(
-            const specs::Difficulty::Difficulty difficulty);
+            const specs::Difficulty difficulty);
 
         const std::vector<ScoreboardEntry>& get_entries(
-            const specs::Difficulty::Difficulty difficulty) const;
+            const specs::Difficulty difficulty) const;
 
-        void add_entry(const specs::Difficulty::Difficulty difficulty,
+        void add_entry(const specs::Difficulty difficulty,
                        const std::string& name, const int turns_taken);
     };
 }

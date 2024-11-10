@@ -7,10 +7,9 @@
 #include "lib/specs.h"
 #include "lib/util.h"
 
-void print_scoreboard_section(
-    const sweepr::data::Scoreboard& scoreboard,
-    const sweepr::specs::Difficulty::Difficulty difficulty,
-    const char label[]) {
+void print_scoreboard_section(const data::Scoreboard& scoreboard,
+                              const specs::Difficulty difficulty,
+                              const char label[]) {
     const auto& entries = scoreboard.get_entries(difficulty);
 
     std::cout << label << ':' << std::endl;
@@ -40,10 +39,10 @@ int main() {
     std::string error_message;
 
     while (!exit) {
-        sweepr::color::set_foreground_color(sweepr::color::Blue);
-        sweepr::color::set_style(sweepr::color::Bold);
+        color::set_foreground_color(color::Color::Blue);
+        color::set_style(color::Style::Bold);
         std::cout << GAME_BANNER << std::endl;
-        sweepr::color::reset();
+        color::reset();
 
         if (!error_message.empty()) {
             std::cout << error_message << std::endl;
@@ -57,7 +56,7 @@ int main() {
         std::cout << "2. Mejores jugares" << std::endl;
         std::cout << "3. Salir" << std::endl;
 
-        const int selection = sweepr::util::safe_prompt<int>();
+        const int selection = util::safe_prompt<int>();
 
         std::cout << std::endl;
 
@@ -68,30 +67,30 @@ int main() {
                 std::cout << "2. Intermedio" << std::endl;
                 std::cout << "3. Difícil" << std::endl;
 
-                int difficulty_selection = sweepr::util::safe_prompt<int>();
+                int difficulty_selection = util::safe_prompt<int>();
 
                 while (difficulty_selection < 1 || difficulty_selection > 3) {
                     std::cout << "Selección inválida." << std::endl;
-                    difficulty_selection = sweepr::util::safe_prompt<int>();
+                    difficulty_selection = util::safe_prompt<int>();
                 }
 
                 std::cout << std::endl;
 
-                sweepr::specs::Difficulty::Difficulty difficulty;
+                specs::Difficulty difficulty;
 
                 switch (difficulty_selection) {
                     case 1:
-                        difficulty = sweepr::specs::Difficulty::Easy;
+                        difficulty = specs::Difficulty::Easy;
                         break;
                     case 2:
-                        difficulty = sweepr::specs::Difficulty::Medium;
+                        difficulty = specs::Difficulty::Medium;
                         break;
                     case 3:
-                        difficulty = sweepr::specs::Difficulty::Hard;
+                        difficulty = specs::Difficulty::Hard;
                         break;
                 }
 
-                sweepr::GameState game(difficulty);
+                GameState game(difficulty);
 
                 game.run();
 
@@ -99,22 +98,21 @@ int main() {
                 break;
             }
             case 2: {
-                const auto scoreboard = sweepr::data::load_scoreboard();
+                const auto scoreboard = data::load_scoreboard();
 
                 std::cout << "Mejores jugadores:" << std::endl;
                 std::cout << std::endl;
 
-                print_scoreboard_section(
-                    scoreboard, sweepr::specs::Difficulty::Easy, "Fácil");
-                print_scoreboard_section(scoreboard,
-                                         sweepr::specs::Difficulty::Medium,
+                print_scoreboard_section(scoreboard, specs::Difficulty::Easy,
+                                         "Fácil");
+                print_scoreboard_section(scoreboard, specs::Difficulty::Medium,
                                          "Intermedio");
-                print_scoreboard_section(
-                    scoreboard, sweepr::specs::Difficulty::Hard, "Difícil");
+                print_scoreboard_section(scoreboard, specs::Difficulty::Hard,
+                                         "Difícil");
 
                 std::cout << std::endl;
                 std::cout << "Presiona enter para volver al menú principal...";
-                sweepr::util::wait_for_enter();
+                util::wait_for_enter();
                 break;
             }
             case 3: {

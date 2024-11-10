@@ -1,8 +1,8 @@
 #include "specs.h"
 #include "util.h"
 
-namespace sweepr::specs {
-    int get_board_size(const Difficulty::Difficulty difficulty) {
+namespace specs {
+    int get_board_size(const Difficulty difficulty) {
         switch (difficulty) {
             case Difficulty::Easy:
                 return 6;
@@ -15,7 +15,7 @@ namespace sweepr::specs {
         }
     }
 
-    int generate_mine_count(const Difficulty::Difficulty difficulty) {
+    int generate_mine_count(const Difficulty difficulty) {
         switch (difficulty) {
             case Difficulty::Easy:
                 return util::rand_range(3, 5);

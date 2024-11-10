@@ -1,9 +1,9 @@
 #ifndef LIB_COLOR
 #define LIB_COLOR
 
-namespace sweepr::color {
+namespace color {
     // https://www.geeksforgeeks.org/enumeration-in-cpp/
-    enum Color {
+    enum class Color {
         Black,
         Red,
         Green,
@@ -22,7 +22,12 @@ namespace sweepr::color {
         BrightWhite,
     };
 
-    enum Style { Bold, Faint, Italic, Underline };
+    enum class Style {
+        Bold,
+        Faint,
+        Italic,
+        Underline
+    };
 
     void reset();
 
