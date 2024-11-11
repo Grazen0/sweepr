@@ -1,4 +1,4 @@
 {pkgs ? import <nixpkgs> {}}:
 pkgs.mkShell {
-  inputsFrom = [(pkgs.callPackage ./default.nix {inherit pkgs;})];
+  inputsFrom = [(pkgs.callPackage ./default.nix {})];
 }

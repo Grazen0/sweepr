@@ -16,16 +16,16 @@
       "aarch64-darwin"
       "x86_64-darwin"
     ];
+
+    pkgsFor = nixpkgs.legacyPackages;
   in {
-    packages = forAllSystems (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in rec {
-      sweepr = pkgs.callPackage ./default.nix {inherit pkgs;};
+    packages = forAllSystems (system: rec {
+      sweepr = pkgsFor.${system}.callPackage ./default.nix {};
       default = sweepr;
     });
 
     devShells = forAllSystems (system: {
-      default = import ./shell.nix {pkgs = nixpkgs.legacyPackages.${system};};
+      default = pkgsFor.${system}.callPackage ./shell.nix {};
     });
   };
 }
