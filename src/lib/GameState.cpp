@@ -11,7 +11,7 @@
 void print_flag() {
     color::set_foreground_color(color::Color::BrightRed);
     color::set_style(color::Style::Bold);
-    std::cout << 'X';
+    std::cout << 'F';
     color::reset();
 }
 
@@ -283,6 +283,9 @@ void GameState::run() {
 
     while (!done) {
         turns++;
+
+        color::clear_screen();
+
         std::cout << "Minas: " << this->mine_count << " | "
                   << "Banderas: " << this->flag_count << std::endl;
 
@@ -326,11 +329,13 @@ void GameState::run() {
 
                 data::save_scoreboard(scoreboard);
 
+                std::cout << std::endl;
                 std::cout << "Tu puntuación ha sido guardada en la tabla "
                              "de puntuaciones"
                           << std::endl;
             }
 
+            std::cout << std::endl;
             std::cout << "Presiona enter para volver al menú principal...";
             util::wait_for_enter();
             done = true;

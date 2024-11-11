@@ -29,6 +29,8 @@ namespace color {
         Underline
     };
 
+    void clear_screen();
+
     void reset();
 
     void set_style(const Style style);
