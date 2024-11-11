@@ -367,8 +367,8 @@ void GameState::run() {
             break;
         }
 
-        std::cout << "Ingrese 'F' para marcar con bandera o 'D' para "
-                     "descubrir: ";
+        std::cout << "Ingrese 'F' para marcar (o desmarcar) una bandera o 'D' "
+                     "para descubrir: ";
         const char action = util::safe_prompt<char>();
 
         std::cout << std::endl;
