@@ -1,4 +1,4 @@
-# sweepr
+# sweepr &middot; ![Status badge](https://github.com/Grazen0/sweepr/actions/workflows/build.yml/badge.svg)
 
 Funky Minesweeper game for the terminal written in C++, and also a final project for a university course.
 
