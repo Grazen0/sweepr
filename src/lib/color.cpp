@@ -7,30 +7,6 @@
 #include <windows.h>
 
 namespace color {
-
-    WORD get_color_attribute(const Color color) {
-        switch (color) {
-            case Color::Black:
-            default:
-                return 0;
-            case Color::Red: return FOREGROUND_RED;
-            case Color::Green: return FOREGROUND_GREEN;
-            case Color::Yellow: return FOREGROUND_RED | FOREGROUND_GREEN;
-            case Color::Blue: return FOREGROUND_BLUE;
-            case Color::Magenta: return FOREGROUND_RED | FOREGROUND_BLUE;
-            case Color::Cyan: return FOREGROUND_GREEN | FOREGROUND_BLUE;
-            case Color::White: return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
-            case Color::BrightBlack: return FOREGROUND_INTENSITY;
-            case Color::BrightRed: return FOREGROUND_RED | FOREGROUND_INTENSITY;
-            case Color::BrightGreen: return FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-            case Color::BrightYellow: return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
-            case Color::BrightBlue: return FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-            case Color::BrightMagenta: return FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-            case Color::BrightCyan: return FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-            case Color::BrightWhite: return FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
-        }
-    }
-
     void reset() {
         set_foreground_color(Color::BrightWhite);
     }
@@ -40,8 +16,66 @@ namespace color {
     }
 
     void set_foreground_color(const Color color) {
-        HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
-        WORD attribute = get_color_attribute(color);
+        WORD attribute;
+
+        switch (color) {
+            case Color::Black:
+            default:
+                attribute = 0;
+                break;
+            case Color::Red:
+                attribute = FOREGROUND_RED;
+                break;
+            case Color::Green:
+                attribute = FOREGROUND_GREEN;
+                break;
+            case Color::Yellow:
+                attribute = FOREGROUND_RED | FOREGROUND_GREEN;
+                break;
+            case Color::Blue:
+                attribute = FOREGROUND_BLUE;
+                break;
+            case Color::Magenta:
+                attribute = FOREGROUND_RED | FOREGROUND_BLUE;
+                break;
+            case Color::Cyan:
+                attribute = FOREGROUND_GREEN | FOREGROUND_BLUE;
+                break;
+            case Color::White:
+                attribute = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
+                break;
+            case Color::BrightBlack:
+                attribute = FOREGROUND_INTENSITY;
+                break;
+            case Color::BrightRed:
+                attribute = FOREGROUND_RED | FOREGROUND_INTENSITY;
+                break;
+            case Color::BrightGreen:
+                attribute = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+                break;
+                break;
+            case Color::BrightYellow:
+                attribute =
+                    FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
+                break;
+            case Color::BrightBlue:
+                attribute = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+                break;
+            case Color::BrightMagenta:
+                attribute =
+                    FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+                break;
+            case Color::BrightCyan:
+                attribute =
+                    FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+                break;
+            case Color::BrightWhite:
+                attribute = FOREGROUND_RED | FOREGROUND_GREEN |
+                            FOREGROUND_BLUE | FOREGROUND_INTENSITY;
+                break;
+        }
+
+        const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(handle, attribute);
     }
 }
