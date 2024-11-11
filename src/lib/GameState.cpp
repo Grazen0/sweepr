@@ -3,64 +3,64 @@
 #include <iostream>
 #include <vector>
 #include "Cell.h"
-#include "color.h"
 #include "data/data.h"
 #include "specs.h"
+#include "term.h"
 #include "util.h"
 
 void print_flag() {
-    color::set_foreground_color(color::Color::BrightRed);
-    color::set_style(color::Style::Bold);
+    term::set_foreground_color(term::Color::BrightRed);
+    term::set_style(term::Style::Bold);
     std::cout << 'F';
-    color::reset();
+    term::reset();
 }
 
 void print_mine() {
-    color::set_foreground_color(color::Color::Red);
-    color::set_style(color::Style::Bold);
+    term::set_foreground_color(term::Color::Red);
+    term::set_style(term::Style::Bold);
     std::cout << 'X';
-    color::reset();
+    term::reset();
 }
 
 void print_undiscovered() {
-    color::set_foreground_color(color::Color::White);
+    term::set_foreground_color(term::Color::White);
     std::cout << '-';
-    color::reset();
+    term::reset();
 }
 
 void print_number(const int n) {
     switch (n) {
         case 0:
-            color::set_foreground_color(color::Color::BrightBlack);
+            term::set_foreground_color(term::Color::BrightBlack);
             break;
         case 1:
-            color::set_foreground_color(color::Color::BrightBlue);
+            term::set_foreground_color(term::Color::BrightBlue);
             break;
         case 2:
-            color::set_foreground_color(color::Color::BrightGreen);
+            term::set_foreground_color(term::Color::BrightGreen);
             break;
         case 3:
-            color::set_foreground_color(color::Color::Red);
+            term::set_foreground_color(term::Color::Red);
             break;
         case 4:
-            color::set_foreground_color(color::Color::BrightMagenta);
+            term::set_foreground_color(term::Color::BrightMagenta);
             break;
         case 5:
-            color::set_foreground_color(color::Color::Green);
+            term::set_foreground_color(term::Color::Green);
             break;
         case 6:
-            color::set_foreground_color(color::Color::Cyan);
+            term::set_foreground_color(term::Color::Cyan);
             break;
         case 7:
-            color::set_foreground_color(color::Color::Blue);
+            term::set_foreground_color(term::Color::Blue);
             break;
         case 8:
-            color::set_foreground_color(color::Color::Magenta);
+            term::set_foreground_color(term::Color::Magenta);
             break;
     }
 
     std::cout << n;
-    color::reset();
+    term::reset();
 }
 
 GameState::GameState(const specs::Difficulty difficulty)
@@ -284,7 +284,7 @@ void GameState::run() {
     while (!done) {
         turns++;
 
-        color::clear_screen();
+        term::clear_screen();
 
         std::cout << "Minas: " << this->mine_count << " | "
                   << "Banderas: " << this->flag_count << std::endl;

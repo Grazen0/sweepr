@@ -1,7 +1,7 @@
 #ifndef LIB_COLOR
 #define LIB_COLOR
 
-namespace color {
+namespace term {
     // https://www.geeksforgeeks.org/enum-classes-in-c-and-their-advantage-over-enum-datatype/
     enum class Color {
         Black,

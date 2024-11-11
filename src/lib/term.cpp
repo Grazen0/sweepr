@@ -1,4 +1,4 @@
-#include "color.h"
+#include "term.h"
 #include <iostream>
 
 // https://stackoverflow.com/a/33260104/14766637
@@ -6,13 +6,13 @@
 
 #include <windows.h>
 
-namespace color {
+namespace term {
     void clear_screen() {
         std::system("cls");
     }
 
     void reset() {
-        set_foreground_color(Color::BrightWhite);
+        set_foreground_color(term::Color::BrightWhite);
     }
 
     void set_style(const Style style) {
@@ -23,57 +23,57 @@ namespace color {
         WORD attribute;
 
         switch (color) {
-            case Color::Black:
+            case term::Black:
             default:
                 attribute = 0;
                 break;
-            case Color::Red:
+            case term::Red:
                 attribute = FOREGROUND_RED;
                 break;
-            case Color::Green:
+            case term::Green:
                 attribute = FOREGROUND_GREEN;
                 break;
-            case Color::Yellow:
+            case term::Yellow:
                 attribute = FOREGROUND_RED | FOREGROUND_GREEN;
                 break;
-            case Color::Blue:
+            case term::Blue:
                 attribute = FOREGROUND_BLUE;
                 break;
-            case Color::Magenta:
+            case term::Magenta:
                 attribute = FOREGROUND_RED | FOREGROUND_BLUE;
                 break;
-            case Color::Cyan:
+            case term::Cyan:
                 attribute = FOREGROUND_GREEN | FOREGROUND_BLUE;
                 break;
-            case Color::White:
+            case term::White:
                 attribute = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
                 break;
-            case Color::BrightBlack:
+            case term::Color::BrightBlack:
                 attribute = FOREGROUND_INTENSITY;
                 break;
-            case Color::BrightRed:
+            case term::Color::BrightRed:
                 attribute = FOREGROUND_RED | FOREGROUND_INTENSITY;
                 break;
-            case Color::BrightGreen:
+            case term::Color::BrightGreen:
                 attribute = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
                 break;
                 break;
-            case Color::BrightYellow:
+            case term::Color::BrightYellow:
                 attribute =
                     FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
                 break;
-            case Color::BrightBlue:
+            case term::Color::BrightBlue:
                 attribute = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
-            case Color::BrightMagenta:
+            case term::Color::BrightMagenta:
                 attribute =
                     FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
-            case Color::BrightCyan:
+            case term::Color::BrightCyan:
                 attribute =
                     FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
-            case Color::BrightWhite:
+            case term::Color::BrightWhite:
                 attribute = FOREGROUND_RED | FOREGROUND_GREEN |
                             FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
@@ -86,7 +86,7 @@ namespace color {
 
 #else
 
-namespace color {
+namespace term {
     void clear_screen() {
         std::cout << "\033[2J\033[1;1H";
     }

@@ -1,7 +1,7 @@
 #include "menu.h"
 #include <iostream>
 #include "lib/GameState.h"
-#include "lib/color.h"
+#include "lib/term.h"
 #include "lib/data/data.h"
 #include "lib/util.h"
 
@@ -22,12 +22,12 @@ namespace menu {
     }
 
     void show_scoreboard() {
-        color::clear_screen();
+        term::clear_screen();
 
-        color::set_foreground_color(color::Color::BrightYellow);
+        term::set_foreground_color(term::Color::BrightYellow);
         std::cout << "Mejores jugadores:" << std::endl;
         std::cout << std::endl;
-        color::reset();
+        term::reset();
 
         const auto scoreboard = data::load_scoreboard();
 
@@ -43,7 +43,7 @@ namespace menu {
     }
 
     void select_difficulty() {
-        color::clear_screen();
+        term::clear_screen();
 
         std::cout << "Seleccione la dificultad:" << std::endl;
         std::cout << "1. Fácil" << std::endl;

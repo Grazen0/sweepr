@@ -1,6 +1,6 @@
 #include <ctime>
 #include <iostream>
-#include "lib/color.h"
+#include "lib/term.h"
 #include "lib/util.h"
 #include "menu.h"
 
@@ -21,17 +21,17 @@ int main() {
     std::string error_message;
 
     while (!done) {
-        color::clear_screen();
-        color::set_foreground_color(color::Color::Blue);
-        color::set_style(color::Style::Bold);
+        term::clear_screen();
+        term::set_foreground_color(term::Color::Blue);
+        term::set_style(term::Style::Bold);
         std::cout << GAME_BANNER << std::endl;
-        color::reset();
+        term::reset();
 
         // Si no hay mensaje de error, igual se imprime la línea que ocuparía
-        color::set_foreground_color(color::Color::Red);
+        term::set_foreground_color(term::Color::Red);
         std::cout << error_message << std::endl;
         std::cout << std::endl;
-        color::reset();
+        term::reset();
         error_message = "";
 
         std::cout << "Seleccione una opción:" << std::endl;
@@ -49,7 +49,7 @@ int main() {
                 menu::show_scoreboard();
                 break;
             case 3:
-                color::clear_screen();
+                term::clear_screen();
                 std::cout << "¡Hasta luego!" << std::endl;
                 done = true;
                 break;
