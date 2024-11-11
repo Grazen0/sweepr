@@ -1,8 +1,4 @@
-{pkgs ? import <nixpkgs> {}}: {
-  default = pkgs.mkShell {
-    nativeBuildInputs = with pkgs; [
-      cmake
-      gcc
-    ];
-  };
+{pkgs ? import <nixpkgs> {}}:
+pkgs.mkShell {
+  inputsFrom = [(pkgs.callPackage ./default.nix {inherit pkgs;})];
 }
