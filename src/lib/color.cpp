@@ -6,6 +6,16 @@
 
 #include <windows.h>
 
+void clearConsole() {
+    #ifdef _WIN32
+        system("cls");  // Comando para limpiar la consola en Windows
+    #elif __linux__ || __APPLE__
+        system("clear");  // Comando para limpiar la consola en Linux o macOS
+    #else
+        std::cout << "Clear console no soportado para este sistema operativo." << std::endl;
+    #endif
+}
+
 namespace color {
 
     WORD getWindowsColorAttribute(const Color color) {
