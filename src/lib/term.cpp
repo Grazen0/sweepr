@@ -19,8 +19,7 @@ namespace term {
         // No se puede en Windows :(
     }
 
-    // https://learn.microsoft.com/en-us/windows/console/setconsoletextattribute
-    // https://learn.microsoft.com/en-us/windows/console/getstdhandle
+    // https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
     void set_foreground_color(const Color color) {
         WORD attribute;
 
