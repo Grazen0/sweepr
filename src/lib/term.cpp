@@ -23,57 +23,56 @@ namespace term {
         WORD attribute;
 
         switch (color) {
-            case term::Black:
+            case Color::Black:
             default:
                 attribute = 0;
                 break;
-            case term::Red:
+            case Color::Red:
                 attribute = FOREGROUND_RED;
                 break;
-            case term::Green:
+            case Color::Green:
                 attribute = FOREGROUND_GREEN;
                 break;
-            case term::Yellow:
+            case Color::Yellow:
                 attribute = FOREGROUND_RED | FOREGROUND_GREEN;
                 break;
-            case term::Blue:
+            case Color::Blue:
                 attribute = FOREGROUND_BLUE;
                 break;
-            case term::Magenta:
+            case Color::Magenta:
                 attribute = FOREGROUND_RED | FOREGROUND_BLUE;
                 break;
-            case term::Cyan:
+            case Color::Cyan:
                 attribute = FOREGROUND_GREEN | FOREGROUND_BLUE;
                 break;
-            case term::White:
+            case Color::White:
                 attribute = FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE;
                 break;
-            case term::Color::BrightBlack:
+            case Color::BrightBlack:
                 attribute = FOREGROUND_INTENSITY;
                 break;
-            case term::Color::BrightRed:
+            case Color::BrightRed:
                 attribute = FOREGROUND_RED | FOREGROUND_INTENSITY;
                 break;
-            case term::Color::BrightGreen:
+            case Color::BrightGreen:
                 attribute = FOREGROUND_GREEN | FOREGROUND_INTENSITY;
                 break;
-                break;
-            case term::Color::BrightYellow:
+            case Color::BrightYellow:
                 attribute =
                     FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY;
                 break;
-            case term::Color::BrightBlue:
+            case Color::BrightBlue:
                 attribute = FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
-            case term::Color::BrightMagenta:
+            case Color::BrightMagenta:
                 attribute =
                     FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
-            case term::Color::BrightCyan:
+            case Color::BrightCyan:
                 attribute =
                     FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
-            case term::Color::BrightWhite:
+            case Color::BrightWhite:
                 attribute = FOREGROUND_RED | FOREGROUND_GREEN |
                             FOREGROUND_BLUE | FOREGROUND_INTENSITY;
                 break;
