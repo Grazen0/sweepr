@@ -34,8 +34,6 @@ namespace color {
     void set_style(const Style style);
 
     void set_foreground_color(const Color color);
-
-    void set_background_color(const Color color);
 }
 
 #endif
