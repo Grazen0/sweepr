@@ -1,5 +1,5 @@
-#ifndef LIB_COLOR
-#define LIB_COLOR
+#ifndef LIB_TERM
+#define LIB_TERM
 
 namespace term {
     // https://www.geeksforgeeks.org/enum-classes-in-c-and-their-advantage-over-enum-datatype/

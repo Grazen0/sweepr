@@ -16,9 +16,11 @@ namespace term {
     }
 
     void set_style(const Style style) {
-        // No se puede en windows :(
+        // No se puede en Windows :(
     }
 
+    // https://learn.microsoft.com/en-us/windows/console/setconsoletextattribute
+    // https://learn.microsoft.com/en-us/windows/console/getstdhandle
     void set_foreground_color(const Color color) {
         WORD attribute;
 
