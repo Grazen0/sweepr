@@ -1,5 +1,8 @@
 #ifndef LIB_COLOR
 #define LIB_COLOR
+#include <cstdlib> 
+
+void clear_console();
 
 namespace color {
     // https://www.geeksforgeeks.org/enum-classes-in-c-and-their-advantage-over-enum-datatype/
