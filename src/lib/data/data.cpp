@@ -8,16 +8,26 @@ namespace data {
     ScoreboardEntry* parse_entry(const std::string& line) {
         const auto separator_index = line.find(ENTRY_SEPARATOR);
 
-        if (separator_index == std::string::npos) {
-            return nullptr;  // Entry malformado
-        }
+        if (separator_index == std::string::npos)
+            return nullptr;
 
         const std::string name = line.substr(0, separator_index);
+
+        if (name.empty())
+            return nullptr;
+
         const std::string turns_str =
             line.substr(separator_index + 1, line.size());
 
-        // TODO: handle parsing errors
-        return new ScoreboardEntry(name, std::stoi(turns_str));
+        int turns;
+
+        try {
+            turns = std::stoi(turns_str);
+        } catch (const std::exception& e) {
+            return nullptr;
+        }
+
+        return new ScoreboardEntry(name, turns);
     }
 
     void parse_entry_section(Scoreboard& scoreboard, std::ifstream& file,
@@ -53,9 +63,9 @@ namespace data {
         return scoreboard;
     }
 
-    void write_scoreboard_section(
-        Scoreboard& scoreboard, const specs::Difficulty difficulty,
-        std::ofstream& file) {
+    void write_scoreboard_section(Scoreboard& scoreboard,
+                                  const specs::Difficulty difficulty,
+                                  std::ofstream& file) {
         const auto& entries = scoreboard.get_entries(difficulty);
 
         for (const auto& entry : entries) {
