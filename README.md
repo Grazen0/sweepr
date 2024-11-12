@@ -19,7 +19,7 @@ If you use Nix (which is awesome btw, again), you can simply run `nix develop` a
 
 The following commands (when executed at the project's root directory) should compile everything.
 
-```bash
+```sh
 cmake . -B build
 cmake --build build
 ```
