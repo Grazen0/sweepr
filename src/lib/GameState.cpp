@@ -281,11 +281,27 @@ void GameState::run() {
     bool done = false;
     int turns = 0;
 
-    while (!done) {
-        turns++;
+    std::string error_message;
 
+    while (!done) {
         term::clear_screen();
 
+        if (!error_message.empty()) {
+            term::set_foreground_color(term::Color::Yellow);
+            std::cout << ":( " << error_message << std::endl;
+            term::reset();
+        } else {
+            std::cout << ":)" << std::endl;
+            turns++;
+        }
+
+        std::cout << std::endl;
+
+        if (!error_message.empty()) {
+            error_message.clear();
+        }
+
+        std::cout << "Turno: " << turns << std::endl;
         std::cout << "Minas: " << this->mine_count << " | "
                   << "Banderas: " << this->flag_count << std::endl;
 
@@ -342,29 +358,20 @@ void GameState::run() {
             continue;
         }
 
-        int i, j;
+        std::cout << "Seleccione una celda (fila columna): ";
+        const int i = util::safe_prompt<int>() - 1;
+        const int j = util::safe_prompt<int>() - 1;
 
-        while (true) {
-            std::cout << "Seleccione una celda (fila columna): ";
-            i = util::safe_prompt<int>() - 1;
-            j = util::safe_prompt<int>() - 1;
+        if (i < 0 || i >= this->board_size || j < 0 || j >= this->board_size) {
+            error_message = "Las coordenadas seleccionadas son inválidas.";
+            continue;
+        }
 
-            if (i < 0 || i >= this->board_size || j < 0 ||
-                j >= this->board_size) {
-                std::cout << "Las coordenadas seleccionadas son inválidas."
-                          << std::endl;
-                continue;
-            }
+        auto& cell = this->grid[i][j];
 
-            auto& cell = this->grid[i][j];
-
-            if (cell.is_discovered()) {
-                std::cout << "La casilla seleccionada ya está descubierta."
-                          << std::endl;
-                continue;
-            }
-
-            break;
+        if (cell.is_discovered()) {
+            error_message = "La casilla seleccionada ya está descubierta.";
+            continue;
         }
 
         std::cout << "Ingrese 'F' para marcar (o desmarcar) una bandera o 'D' "
@@ -373,12 +380,7 @@ void GameState::run() {
 
         std::cout << std::endl;
 
-        const std::string possible_error = this->do_action(i, j, action);
-
-        if (!possible_error.empty()) {
-            std::cout << possible_error << std::endl;
-            continue;
-        }
+        error_message = this->do_action(i, j, action);
     }
 }
 
