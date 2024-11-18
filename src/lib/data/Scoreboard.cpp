@@ -13,6 +13,7 @@ namespace data {
             case specs::Difficulty::Medium:
                 return this->medium_entries;
             case specs::Difficulty::Hard:
+            default:  // Este caso no ocurre, pero sino hay un warning
                 return this->hard_entries;
         }
     }
@@ -25,6 +26,7 @@ namespace data {
             case specs::Difficulty::Medium:
                 return this->medium_entries;
             case specs::Difficulty::Hard:
+            default:  // Este caso no ocurre, pero sino hay un warning
                 return this->hard_entries;
         }
     }
