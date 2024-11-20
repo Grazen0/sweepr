@@ -121,7 +121,7 @@ void GameState::print_grid() const {
                 }
                 case State::Victory: {
                     if (cell.is_mine()) {
-                        print_mine();
+                        print_flag();
                     } else {
                         print_number(cell.get_adjacent_mines());
                     }
