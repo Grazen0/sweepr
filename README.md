@@ -4,6 +4,8 @@ Funky Minesweeper game for the terminal written in C++, and also a final project
 
 Está en español, por cierto.
 
+![Demo screenshot](https://github.com/Grazen0/sweepr/blob/main/.github/demo.png?raw=true)
+
 ## Try it out!
 
 If you use [Nix](https://nixos.org/) (which is awesome btw), just do `nix run github:Grazen0/sweepr`.
