@@ -1,7 +1,7 @@
 {pkgs ? import <nixpkgs> {}}:
 pkgs.stdenv.mkDerivation {
   pname = "sweepr";
-  version = "0.1.0";
+  version = "1.0.0";
 
   src = ./.;
 
