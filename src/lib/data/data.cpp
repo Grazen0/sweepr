@@ -48,7 +48,7 @@ namespace data {
     }
 
     Scoreboard load_scoreboard() {
-        std::ifstream file(DATA_FILENAME, std::ios::in);
+        std::ifstream file(DATA_FILENAME);
         Scoreboard scoreboard;
 
         if (!file.is_open()) {
@@ -77,7 +77,7 @@ namespace data {
     }
 
     void save_scoreboard(Scoreboard& scoreboard) {
-        std::ofstream file(DATA_FILENAME, std::ios::out);
+        std::ofstream file(DATA_FILENAME);
 
         write_scoreboard_section(scoreboard, specs::Difficulty::Easy, file);
         write_scoreboard_section(scoreboard, specs::Difficulty::Medium, file);
