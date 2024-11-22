@@ -9,7 +9,7 @@ namespace data {
 
     Scoreboard load_scoreboard();
 
-    void save_scoreboard(Scoreboard& scoreboard);
+    void save_scoreboard(const Scoreboard& scoreboard);
 }
 
 #endif

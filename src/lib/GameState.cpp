@@ -336,13 +336,6 @@ void GameState::run() {
                         continue;
                     }
 
-                    if (player_name.find(data::ENTRY_SEPARATOR) !=
-                        std::string::npos) {
-                        std::cout << "Tu nombre no puede contener el caracter '"
-                                  << data::ENTRY_SEPARATOR << "'." << std::endl;
-                        continue;
-                    }
-
                     break;
                 }
 

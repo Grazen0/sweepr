@@ -6,7 +6,7 @@
 
 namespace data {
     ScoreboardEntry* parse_entry(const std::string& line) {
-        const auto separator_index = line.find(ENTRY_SEPARATOR);
+        const auto separator_index = line.rfind(ENTRY_SEPARATOR);
 
         if (separator_index == std::string::npos)
             return nullptr;
@@ -63,7 +63,7 @@ namespace data {
         return scoreboard;
     }
 
-    void write_scoreboard_section(Scoreboard& scoreboard,
+    void write_scoreboard_section(const Scoreboard& scoreboard,
                                   const specs::Difficulty difficulty,
                                   std::ofstream& file) {
         const auto& entries = scoreboard.get_entries(difficulty);
@@ -76,7 +76,7 @@ namespace data {
         file << '\n';
     }
 
-    void save_scoreboard(Scoreboard& scoreboard) {
+    void save_scoreboard(const Scoreboard& scoreboard) {
         std::ofstream file(DATA_FILENAME);
 
         write_scoreboard_section(scoreboard, specs::Difficulty::Easy, file);

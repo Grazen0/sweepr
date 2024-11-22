@@ -13,9 +13,11 @@ namespace menu {
 
         std::cout << label << ':' << std::endl;
 
-        for (int i = 0; i < std::min(5, (int)entries.size()); i++) {
-            std::cout << (i + 1) << ". " << entries[i].get_name() << " - "
-                      << entries[i].get_turns_taken() << " turnos" << std::endl;
+        for (unsigned long i = 0; i < entries.size(); i++) {
+            const auto& entry = entries[i];
+
+            std::cout << (i + 1) << ". " << entry.get_name() << " - "
+                      << entry.get_turns_taken() << " turno(s)" << std::endl;
         }
 
         std::cout << std::endl;
