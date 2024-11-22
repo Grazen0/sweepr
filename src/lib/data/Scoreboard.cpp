@@ -32,9 +32,7 @@ namespace data {
 
     void Scoreboard::add_entry(const specs::Difficulty difficulty,
                                const std::string& name, const int turns_taken) {
-        std::vector<ScoreboardEntry>& target_vec =
-            this->get_entries(difficulty);
-
+        auto& target_vec = this->get_entries(difficulty);
         auto it = target_vec.begin();
 
         while (it != target_vec.end() && it->get_turns_taken() <= turns_taken) {
