@@ -63,20 +63,25 @@ void print_number(const int n) {
     term::reset();
 }
 
+Cell** create_grid(const int size) {
+    Cell** grid = new Cell*[size];
+
+    for (int i = 0; i < size; i++) {
+        grid[i] = new Cell[size];
+    }
+
+    return grid;
+}
+
 GameState::GameState(const specs::Difficulty difficulty)
     : difficulty(difficulty),
       mine_count(specs::generate_mine_count(difficulty)),
       board_size(specs::get_board_size(difficulty)),
+      grid(create_grid(this->board_size)),
       flag_count(0),
       discovered_count(0),
-      state(State::Playing),
-      initialized(false) {
-    this->grid = new Cell*[this->board_size];
-
-    for (int i = 0; i < this->board_size; i++) {
-        this->grid[i] = new Cell[this->board_size];
-    }
-}
+      initialized(false),
+      state(State::Playing) {}
 
 GameState::~GameState() {
     for (int i = 0; i < this->board_size; i++) {

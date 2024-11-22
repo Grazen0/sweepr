@@ -2,7 +2,6 @@
 #include <vector>
 #include "../specs.h"
 #include "ScoreboardEntry.h"
-#include "data.h"
 
 namespace data {
     std::vector<ScoreboardEntry>& Scoreboard::get_entries(
@@ -43,9 +42,5 @@ namespace data {
         }
 
         target_vec.insert(it, ScoreboardEntry(name, turns_taken));
-
-        if (target_vec.size() > MAX_ENTRIES) {
-            target_vec.pop_back();
-        }
     }
 }

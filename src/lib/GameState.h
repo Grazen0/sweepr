@@ -16,12 +16,11 @@ private:
     const specs::Difficulty difficulty;
     const int mine_count;
     const int board_size;
-    Cell** grid;  // Matriz de celdas
-
+    Cell* const* const grid;  // Matriz de celdas
     int flag_count;
     int discovered_count;
-    State state;
     bool initialized;
+    State state;
 
     int total_cells() const;
 
