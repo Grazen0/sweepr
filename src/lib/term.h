@@ -36,6 +36,8 @@ namespace term {
     void set_style(const Style style);
 
     void set_foreground_color(const Color color);
+
+    void wait_for_enter();
 }
 
 #endif

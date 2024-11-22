@@ -16,8 +16,9 @@ namespace util {
         std::cin >> x;
 
         while (std::cin.fail()) {
-            std::cin.clear(); // Resetea el estado del cin
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Vacia el buffer
+            std::cin.clear();  // Resetea el estado del cin
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(),
+                            '\n');  // Vacia el buffer
             std::cin >> x;
         }
 
@@ -37,8 +38,6 @@ namespace util {
             }
         }
     }
-
-    void wait_for_enter();
 
     char to_lowercase(const char ch);
 }

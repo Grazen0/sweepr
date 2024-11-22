@@ -1,5 +1,14 @@
 #include "term.h"
 #include <iostream>
+#include <limits>
+
+namespace term {
+    // https://stackoverflow.com/questions/21032491/cin-get-isnt-working-as-it-should
+    void wait_for_enter() {
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        std::cin.get();
+    }
+}
 
 // https://stackoverflow.com/a/33260104/14766637
 #if __has_include(<windows.h>)

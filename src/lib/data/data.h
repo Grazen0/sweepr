@@ -4,7 +4,6 @@
 #include "Scoreboard.h"
 
 namespace data {
-    constexpr int MAX_ENTRIES = 5;
     constexpr char DATA_FILENAME[] = "scores.txt";
     constexpr char ENTRY_SEPARATOR = ':';
 

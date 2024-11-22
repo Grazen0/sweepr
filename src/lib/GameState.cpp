@@ -353,7 +353,7 @@ void GameState::run() {
 
             std::cout << std::endl;
             std::cout << "Presiona enter para volver al menú principal...";
-            util::wait_for_enter();
+            term::wait_for_enter();
             done = true;
             continue;
         }

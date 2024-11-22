@@ -1,8 +1,8 @@
 #include "menu.h"
 #include <iostream>
 #include "lib/GameState.h"
-#include "lib/term.h"
 #include "lib/data/data.h"
+#include "lib/term.h"
 #include "lib/util.h"
 
 namespace menu {
@@ -39,7 +39,7 @@ namespace menu {
 
         std::cout << std::endl;
         std::cout << "Presiona enter para volver al menú principal...";
-        util::wait_for_enter();
+        term::wait_for_enter();
     }
 
     void select_difficulty() {
