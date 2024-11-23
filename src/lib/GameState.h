@@ -28,6 +28,8 @@ private:
 
     void discover_cell(const int i, const int j);
 
+    void handle_win(const int turns_taken) const;
+
     std::string do_action(const int i, const int j, const char action);
 
 public:

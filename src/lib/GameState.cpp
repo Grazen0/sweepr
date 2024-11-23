@@ -282,6 +282,37 @@ std::string GameState::do_action(const int i, const int j, const char action) {
     return "";
 }
 
+void GameState::handle_win(const int turns_taken) const {
+    std::cout << "¡Felicidades! ¡Has descubierto todas las "
+                 "celdas sin mina!"
+              << std::endl;
+
+    data::Scoreboard scoreboard = data::load_scoreboard();
+
+    std::string player_name;
+
+    while (true) {
+        std::cout << "Ingresa tu nombre: ";
+        player_name = util::safe_prompt<std::string>();
+
+        if (player_name.empty()) {
+            std::cout << "Tu nombre no puede estar vacío." << std::endl;
+            continue;
+        }
+
+        break;
+    }
+
+    scoreboard.add_entry(this->difficulty, player_name, turns_taken);
+
+    data::save_scoreboard(scoreboard);
+
+    std::cout << std::endl;
+    std::cout << "Tu puntuación ha sido guardada en la tabla "
+                 "de puntuaciones"
+              << std::endl;
+}
+
 void GameState::run() {
     bool done = false;
     int turns = 0;
@@ -318,35 +349,7 @@ void GameState::run() {
             if (this->state == State::Loss) {
                 std::cout << "¡Has descubierto una mina!" << std::endl;
             } else if (this->state == State::Victory) {
-                std::cout << "¡Felicidades! ¡Has descubierto todas las "
-                             "celdas sin mina!"
-                          << std::endl;
-
-                data::Scoreboard scoreboard = data::load_scoreboard();
-
-                std::string player_name;
-
-                while (true) {
-                    std::cout << "Ingresa tu nombre: ";
-                    player_name = util::safe_prompt<std::string>();
-
-                    if (player_name.empty()) {
-                        std::cout << "Tu nombre no puede estar vacío."
-                                  << std::endl;
-                        continue;
-                    }
-
-                    break;
-                }
-
-                scoreboard.add_entry(this->difficulty, player_name, turns);
-
-                data::save_scoreboard(scoreboard);
-
-                std::cout << std::endl;
-                std::cout << "Tu puntuación ha sido guardada en la tabla "
-                             "de puntuaciones"
-                          << std::endl;
+                this->handle_win(turns);
             }
 
             std::cout << std::endl;

@@ -10,10 +10,11 @@ namespace menu {
                                   const specs::Difficulty difficulty,
                                   const char label[]) {
         const auto& entries = scoreboard.get_entries(difficulty);
+        const auto display_count = std::min(entries.size(), MAX_SHOW_ENTRIES);
 
         std::cout << label << ':' << std::endl;
 
-        for (unsigned long i = 0; i < entries.size(); i++) {
+        for (unsigned long i = 0; i < display_count; i++) {
             const auto& entry = entries[i];
 
             std::cout << (i + 1) << ". " << entry.get_name() << " - "
