@@ -2,34 +2,40 @@
 #include <iostream>
 #include <limits>
 
+// https://stackoverflow.com/a/33260104/14766637
+// https://stackoverflow.com/questions/75899842/how-to-use-has-include-correctly
+#if __has_include(<windows.h>)
+#include <windows.h>
+
+#define WINDOWS_SUPPORT 1
+#endif
+
 namespace term {
     // https://stackoverflow.com/questions/21032491/cin-get-isnt-working-as-it-should
     void wait_for_enter() {
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cin.get();
     }
-}
 
-// https://stackoverflow.com/a/33260104/14766637
-#if __has_include(<windows.h>)
-
-#include <windows.h>
-
-namespace term {
     void clear_screen() {
+#ifdef WINDOWS_SUPPORT
         std::system("cls");
+#else
+        std::cout << "\033[2J\033[1;1H";
+#endif
     }
 
     void reset() {
+#ifdef WINDOWS_SUPPORT
         set_foreground_color(term::Color::BrightWhite);
+#else
+        std::cout << "\033[0m";
+#endif
     }
 
-    void set_style(const Style style) {
-        // No se puede en Windows :(
-    }
-
-    // https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
     void set_foreground_color(const Color color) {
+#ifdef WINDOWS_SUPPORT
+        // https://stackoverflow.com/questions/4053837/colorizing-text-in-the-console-with-c
         WORD attribute;
 
         switch (color) {
@@ -90,39 +96,8 @@ namespace term {
 
         const HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
         SetConsoleTextAttribute(handle, attribute);
-    }
-}
-
 #else
-
-namespace term {
-    void clear_screen() {
-        std::cout << "\033[2J\033[1;1H";
-    }
-
-    void reset() {
-        std::cout << "\033[0m";
-    }
-
-    void set_style(const Style style) {
-        switch (style) {
-            case Style::Bold:
-                std::cout << "\033[1m";
-                break;
-            case Style::Faint:
-                std::cout << "\033[2m";
-                break;
-            case Style::Italic:
-                std::cout << "\033[3m";
-                break;
-            case Style::Underline:
-                std::cout << "\033[4m";
-                break;
-        }
-    }
-
-    // https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
-    void set_foreground_color(const Color color) {
+        // https://stackoverflow.com/questions/4842424/list-of-ansi-color-escape-sequences
         switch (color) {
             case Color::Black:
                 std::cout << "\033[30m";
@@ -173,7 +148,24 @@ namespace term {
                 std::cout << "\x1B[97m";
                 break;
         }
+#endif
+    }
+
+    void set_style(const Style style) {
+        // Quizá no funcione en Windows
+        switch (style) {
+            case Style::Bold:
+                std::cout << "\033[1m";
+                break;
+            case Style::Faint:
+                std::cout << "\033[2m";
+                break;
+            case Style::Italic:
+                std::cout << "\033[3m";
+                break;
+            case Style::Underline:
+                std::cout << "\033[4m";
+                break;
+        }
     }
 }
-
-#endif
