@@ -291,7 +291,7 @@ void GameState::run() {
     while (!done) {
         term::clear_screen();
 
-        if (!error_message.empty()) {
+        if (!error_message.empty() || this->state == State::Loss) {
             term::set_foreground_color(term::Color::Yellow);
             std::cout << ":( " << error_message << std::endl;
             term::reset();
