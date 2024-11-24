@@ -1,4 +1,5 @@
 #include "term.h"
+#include <ios>
 #include <iostream>
 #include <limits>
 
