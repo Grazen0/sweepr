@@ -23,7 +23,7 @@ namespace data {
 
         try {
             turns = std::stoi(turns_str);
-        } catch (const std::exception& e) {
+        } catch (const std::exception&) {
             return nullptr;
         }
 

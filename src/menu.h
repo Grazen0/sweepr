@@ -2,7 +2,7 @@
 #define MENU
 
 namespace menu {
-    constexpr unsigned long MAX_SHOW_ENTRIES = 10;
+    constexpr int MAX_SHOW_ENTRIES = 10;
 
     void show_scoreboard();
 
