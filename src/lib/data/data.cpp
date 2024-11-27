@@ -79,6 +79,10 @@ namespace data {
     void save_scoreboard(const Scoreboard& scoreboard) {
         std::ofstream file(DATA_FILENAME);
 
+        if (file.fail()) {
+            return;
+        }
+
         write_scoreboard_section(scoreboard, specs::Difficulty::Easy, file);
         write_scoreboard_section(scoreboard, specs::Difficulty::Medium, file);
         write_scoreboard_section(scoreboard, specs::Difficulty::Hard, file);
